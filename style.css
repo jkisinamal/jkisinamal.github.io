@@ -102,6 +102,19 @@ nav a {
 
 /* Gallery Section */
 #gallery {
+    padding: 2rem 2rem;
+    background: #181819;
+    color: white;
+    text-align: center;
+}
+
+#gallery h3 {
+    font-size: 1.5rem;
+    color: #f9f9f9;
+    padding: 0 2rem;
+}
+
+.gallery-grid {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
@@ -179,7 +192,29 @@ nav a {
     background: #0056b3;
 }
 
-/* Media Queries for Responsive Design */
+/* About Section */
+#about {
+    padding: 2rem;
+    background: #0c0c0d;
+    text-align: center;
+    opacity: 0.8;
+}
+
+#about h2 {
+    font-size: 3rem;
+}
+
+/* Contact Section */
+#contact {
+    padding: 2rem;
+    text-align: center;
+}
+
+#contact a {
+    color: white;
+}
+
+/* Media Queries ver 2 */
 @media (max-width: 1200px) {
     .overlay {
         padding: 0.5rem;
@@ -248,7 +283,7 @@ nav a {
     }
 }
 
-/* Media Queries */
+/* Media Queries ver 1 */
 @media (max-width: 1200px) {
     .hero h2 {
         font-size: 4rem;
@@ -320,24 +355,44 @@ nav a {
         margin: 0.5rem 0.25rem;
     }
 }
-/* About Section */
-#about {
-    padding: 2rem;
-    background: #0c0c0d;
-    text-align: center;
-    opacity: 0.8;
+
+/* Gallery Title */
+@media (max-width: 1200px) {
+    #gallery {
+        padding: 3rem 1.5rem;
+    }
+
+    #gallery h3 {
+        font-size: 2rem;
+    }
 }
 
-#about h2 {
-    font-size: 3rem;
+@media (max-width: 768px) {
+    #gallery {
+        padding: 2.5rem 1rem;
+    }
+
+    #gallery h3 {
+        font-size: 1.5rem;
+    }
 }
 
-/* Contact Section */
-#contact {
-    padding: 2rem;
-    text-align: center;
+@media (max-width: 480px) {
+    #gallery {
+        padding: 2rem 0.5rem;
+    }
+
+    #gallery h3 {
+        font-size: 1.2rem;
+    }
 }
 
-#contact a {
-    color: white;
+@media (max-width: 320px) {
+    #gallery {
+        padding: 1.5rem 0.25rem;
+    }
+
+    #gallery h3 {
+        font-size: 1rem;
+    }
 }
