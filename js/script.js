@@ -17,6 +17,8 @@ document.body.ontouchmove = event => {
     moveBlob(touch.clientX, touch.clientY);
 };
 
+const soldItems = ['Eye of the Tiger','A Helping Hand','Jars of Clay','From High Throne down to the Cross'];
+
 document.querySelectorAll('.gallery-item').forEach(item => {
     const img = item.querySelector('img');
     const overlay = document.createElement('div');
@@ -32,7 +34,12 @@ document.querySelectorAll('.gallery-item').forEach(item => {
 
     const link = document.createElement('a');
     link.href = img.getAttribute('data-link');
-    link.textContent = 'View More';
+    if (soldItems.includes(img.getAttribute('data-title'))) {
+        link.textContent = 'SOLD';
+        link.classList.add('sold');
+    } else {
+        link.textContent = 'Be a Keeper?';
+    }
     overlay.appendChild(link);
 
     item.appendChild(overlay);
