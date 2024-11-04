@@ -19,62 +19,75 @@ document.querySelectorAll('.gallery-item').forEach(item => {
     const overlay = item.querySelector('.overlay');
     const button = overlay.querySelector('.button');
 
+    const showOverlay = () => {
+        overlay.style.display = 'flex';
+        requestAnimationFrame(() => {
+            overlay.classList.add('overlay-visible');
+        });
+        button.style.pointerEvents = 'auto';
+    };
+
+    const hideOverlay = () => {
+        overlay.classList.remove('overlay-visible');
+        overlay.addEventListener('transitionend', () => {
+            overlay.style.display = 'none';
+        }, { once: true });
+        button.style.pointerEvents = 'none';
+    };
+
     if (isMobile) {
         item.addEventListener('click', (event) => {
-            overlay.style.display = 'flex';
-            requestAnimationFrame(() => {
-                overlay.classList.add('overlay-visible');
+            // Hide any other visible overlays
+            document.querySelectorAll('.overlay-visible').forEach(visibleOverlay => {
+                if (visibleOverlay !== overlay) {
+                    visibleOverlay.classList.remove('overlay-visible');
+                    visibleOverlay.addEventListener('transitionend', () => {
+                        visibleOverlay.style.display = 'none';
+                    }, { once: true });
+                }
             });
-            button.style.pointerEvents = 'auto';
+
+            showOverlay();
             event.stopPropagation(); // Stop propagation to prevent triggering document click
         });
 
         // Add event listener to hide overlay when clicking outside
         document.addEventListener('click', (event) => {
             if (!item.contains(event.target) && !overlay.contains(event.target)) {
-                overlay.classList.remove('overlay-visible');
-                overlay.addEventListener('transitionend', () => {
-                    overlay.style.display = 'none';
-                }, { once: true });
-                button.style.pointerEvents = 'none';
+                hideOverlay();
             }
         });
 
-        // Prevent overlay from closing when clicking inside it
+        // Prevent overlay from closing until clicked outside of it
         overlay.addEventListener('click', (event) => {
             event.stopPropagation();
         });
-    } else {
-        item.addEventListener('mouseenter', () => {
-            overlay.style.display = 'flex';
-            requestAnimationFrame(() => {
-                overlay.classList.add('overlay-visible');
-            });
-            button.style.pointerEvents = 'auto';
-        });
 
+        // Add event listener to hide overlay when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!item.contains(event.target) && !overlay.contains(event.target)) {
+                hideOverlay();
+            }
+        });
+    } else {
+        item.addEventListener('mouseenter', showOverlay);
         item.addEventListener('mouseleave', (event) => {
             if (!overlay.contains(event.relatedTarget)) {
-                overlay.classList.remove('overlay-visible');
-                overlay.addEventListener('transitionend', () => {
-                    overlay.style.display = 'none';
-                }, { once: true });
-                button.style.pointerEvents = 'none';
+                hideOverlay();
             }
         });
 
-        overlay.addEventListener('mouseenter', () => {
-            overlay.classList.add('overlay-visible');
-            button.style.pointerEvents = 'auto';
-        });
-
+        overlay.addEventListener('mouseenter', showOverlay);
         overlay.addEventListener('mouseleave', (event) => {
             if (!item.contains(event.relatedTarget)) {
-                overlay.classList.remove('overlay-visible');
-                overlay.addEventListener('transitionend', () => {
-                    overlay.style.display = 'none';
-                }, { once: true });
-                button.style.pointerEvents = 'none';
+                hideOverlay();
+            }
+        });
+
+        // Add event listener to hide overlay when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!item.contains(event.target) && !overlay.contains(event.target)) {
+                hideOverlay();
             }
         });
     }
