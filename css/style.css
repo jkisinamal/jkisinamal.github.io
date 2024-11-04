@@ -272,7 +272,7 @@ header a {
     padding: 0 1rem;
 }
 
-.overlay a.button {
+.overlay a.button, .overlay button.button {
     background: #007BFF;
     color: #f9f9f9;
     padding: 0.5rem 1rem;
@@ -280,13 +280,15 @@ header a {
     text-decoration: none;
     transition: background 0.3s ease;
     pointer-events: none; /* Initially unclickable */
+    border: none; /* Remove default button border */
+    cursor: pointer; /* Add pointer cursor for button */
 }
 
-.overlay-visible a.button {
+.overlay-visible a.button, .overlay-visible button.button {
     pointer-events: auto; /* Clickable when overlay is visible */
 }
 
-.overlay a.button:hover {
+.overlay a.button:hover, .overlay button.button:hover {
     background: #0056b3;
 }
 
