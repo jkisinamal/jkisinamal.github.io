@@ -267,13 +267,14 @@ header a {
 
 .overlay p {
     font-size: 1rem;
-    margin-bottom: 1rem;
     text-align: center;
     padding: 0 1rem;
 }
 
 .overlay a.button, .overlay button.button {
-    background: #007BFF;
+    margin-top: 1rem;
+    font-weight: 700;
+    font-size: 1rem;
     color: #f9f9f9;
     padding: 0.5rem 1rem;
     border-radius: 5px;
@@ -284,18 +285,40 @@ header a {
     cursor: pointer; /* Add pointer cursor for button */
 }
 
-.overlay-visible a.button, .overlay-visible button.button {
-    pointer-events: auto; /* Clickable when overlay is visible */
+.overlay button.button.red {
+    background: rgb(172, 0, 0);
 }
 
-.overlay a.button:hover, .overlay button.button:hover {
-    background: #0056b3;
+.overlay button.button.green {
+    background: green;
+}
+
+.overlay button.button.red:hover {
+    background: rgb(139, 0, 0); /* Darker red */
+}
+
+.overlay button.button.green:hover {
+    background: darkgreen; /* Darker green */
+}
+
+.overlay-visible a.button, .overlay-visible button.button {
+    pointer-events: auto; /* Clickable when overlay is visible */
 }
 
 .gallery-item:hover .overlay {
     opacity: 1;
 }
 
+@media screen and (max-width: 480px) {  
+    .overlay h4 {
+        font-size: 1rem;
+        margin: 0;
+    }
+
+    .overlay a.button, .overlay button.button {
+        font-size: 0.8rem;
+    }
+}
 /* About Section */
 #about, .item {
     padding: 2rem;
