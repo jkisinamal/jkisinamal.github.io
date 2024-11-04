@@ -230,6 +230,10 @@ header a {
     .description {
         display: block;
     }
+
+    .overlay p {
+        display: none;
+    }
 }
 
 @media (max-width: 480px) {
@@ -259,6 +263,10 @@ header a {
 
     .hero p {
         font-size: 0.9rem;
+    }
+
+    .overlay p {
+        display: none; /* Hide description on small screens */
     }
 }
 
