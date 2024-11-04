@@ -12,35 +12,45 @@ document.body.onpointermove = event => {
     moveBlob(clientX, clientY);
 };
 
-document.body.ontouchmove = event => {
-    const touch = event.touches[0];
-    moveBlob(touch.clientX, touch.clientY);
-};
-
-const soldItems = ['Eye of the Tiger','A Helping Hand','Jars of Clay','From High Throne down to the Cross'];
+// Overlay to paintings
+const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
 document.querySelectorAll('.gallery-item').forEach(item => {
-    const img = item.querySelector('img');
-    const overlay = document.createElement('div');
-    overlay.classList.add('overlay');
+    const overlay = item.querySelector('.overlay');
+    const button = overlay.querySelector('.button');
 
-    const title = document.createElement('h3');
-    title.textContent = img.getAttribute('data-title');
-    overlay.appendChild(title);
-
-    const description = document.createElement('p');
-    description.textContent = img.getAttribute('data-description');
-    overlay.appendChild(description);
-
-    const link = document.createElement('a');
-    link.href = img.getAttribute('data-link');
-    if (soldItems.includes(img.getAttribute('data-title'))) {
-        link.textContent = 'SOLD';
-        link.classList.add('sold');
+    if (isMobile) {
+        item.addEventListener('click', () => {
+            overlay.style.display = 'flex';
+            requestAnimationFrame(() => {
+                overlay.classList.add('overlay-visible');
+            });
+            button.style.pointerEvents = 'auto';
+        });
     } else {
-        link.textContent = 'Be a Keeper?';
+        item.addEventListener('mouseenter', () => {
+            overlay.style.display = 'flex';
+            requestAnimationFrame(() => {
+                overlay.classList.add('overlay-visible');
+            });
+            button.style.pointerEvents = 'auto';
+        });
+        item.addEventListener('mouseleave', () => {
+            overlay.classList.remove('overlay-visible');
+            overlay.addEventListener('transitionend', () => {
+                overlay.style.display = 'none';
+            }, { once: true });
+            button.style.pointerEvents = 'none';
+        });
     }
-    overlay.appendChild(link);
 
-    item.appendChild(overlay);
+    document.addEventListener('click', (event) => {
+        if (!item.contains(event.target) && !overlay.contains(event.target)) {
+            overlay.classList.remove('overlay-visible');
+            overlay.addEventListener('transitionend', () => {
+                overlay.style.display = 'none';
+            }, { once: true });
+            button.style.pointerEvents = 'none';
+        }
+    });
 });
