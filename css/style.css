@@ -5,6 +5,11 @@
     box-sizing: border-box;
 }
 
+h4 {
+    margin: 0;
+    text-align: center;
+}
+
 /* Body */
 body {
     font-family: Arial, sans-serif;
@@ -91,14 +96,14 @@ header a {
     color: white;
 }
 
-.hero h2 {
-    font-size: 6rem;
-    margin-bottom: 0;
-}
-
-.hero p {
+.subtitle-style{
     font-size: 1.5rem;
     margin-bottom: 1rem;
+}
+
+.title-style {
+    font-size: 6rem;
+    margin-bottom: 0;
 }
 
 /* Gallery Section */
@@ -146,100 +151,6 @@ header a {
 
 .gallery-item:hover img {
     opacity: 0.7;
-}
-
-/* Media Queries */
-@media (max-width: 1200px) {
-    .hero h2 {
-        font-size: 4rem;
-    }
-
-    .hero p {
-        font-size: 1.2rem;
-    }
-}
-
-@media (max-width: 768px) {
-    header {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    nav a {
-        font-size: 1rem;
-        margin: 0.5rem 0.5rem;
-    }
-
-    .hero h2 {
-        font-size: 3rem;
-    }
-
-    .hero p {
-        font-size: 1rem;
-    }
-
-    #gallery {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .gallery-column {
-        width: 100%;
-    }
-
-    .description {
-        display: block;
-    }
-
-    .overlay {
-        justify-content: center; /* Center contents vertically */
-        align-items: center; /* Center contents horizontally */
-    }
-
-    .overlay p {
-        display: none; /* Hide description on mobile */
-    }
-}
-
-@media (max-width: 480px) {
-    #gallery {
-        padding: 1rem;
-    }
-    .overlay h4 {
-        font-size: 1.5rem;
-        margin-bottom: 1rem;
-    }
-
-    .overlay a.button {
-        font-size: 0.9rem;
-    }
-
-    header h1 {
-        font-size: 1.2rem;
-    }
-
-    nav a {
-        font-size: 0.9rem;
-    }
-
-    .hero h2 {
-        font-size: 2rem;
-    }
-
-    .hero p {
-        font-size: 0.9rem;
-    }
-
-    .overlay p {
-        display: none; /* Hide description on small screens */
-    }
-}
-
-@media (max-width: 320px) {
-    nav a {
-        font-size: 1rem;
-        margin: 0.5rem 0.25rem;
-    }
 }
 
 /* Overlay Styles */
@@ -309,7 +220,7 @@ header a {
     opacity: 1;
 }
 
-@media screen and (max-width: 480px) {  
+@media (max-width: 480px) {  
     .overlay h4 {
         font-size: 1rem;
         margin: 0;
@@ -319,6 +230,103 @@ header a {
         font-size: 0.8rem;
     }
 }
+
+/* Media Queries */
+@media (max-height: 768px) {
+    .overlay p {
+        display: none; /* Hide description on mobile */
+    }
+}
+
+@media (max-width: 1200px) {
+    .title-style {
+        font-size: 4rem;
+    }
+
+    .subtitle-style {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    nav a {
+        font-size: 1rem;
+        margin: 0.5rem 0.5rem;
+    }
+
+    .title-style {
+        font-size: 3rem;
+        font-weight: 700;
+    }
+
+    .subtitle-style {
+        font-size: 1rem;
+    }
+
+    #gallery {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .gallery-column {
+        width: 100%;
+    }
+
+    .description {
+        display: block;
+    }
+
+    .overlay {
+        justify-content: center; /* Center contents vertically */
+        align-items: center; /* Center contents horizontally */
+    }
+
+    .overlay p {
+        display: none; /* Hide description on mobile */
+    }
+}
+
+@media (max-width: 480px) {
+    #gallery {
+        padding: 1rem;
+    }
+    .overlay h4 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .overlay a.button {
+        font-size: 0.9rem;
+    }
+
+    header h1 {
+        font-size: 1.2rem;
+    }
+
+    nav a {
+        font-size: 0.9rem;
+    }
+
+    .title-style {
+        font-size: 2rem;
+    }
+
+    .subtitle-style {
+        font-size: 0.9rem;
+    }
+
+    .overlay p {
+        display: none; /* Hide description on small screens */
+    }
+}
+
+@media (max-width: 320px) {
+    nav a {
+        font-size: 1rem;
+        margin: 0.5rem 0.25rem;
+    }
+}
+
 /* About Section */
 #about, .item {
     padding: 2rem;

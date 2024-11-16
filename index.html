@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>jkisinamal</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/navbar-mobile.css">
 </head>
 <body>
     <!-- Effects -->
@@ -15,16 +16,29 @@
     <header>
         <a href="index.html"><h1>Joval Kisinamal</h1></a>
         <nav>
-            <a href="index.html">Home</a>
-            <a href="html/about.html">About</a>
-            <a href="html/contact.html">Contact</a>
+            <input type="checkbox" id="sidebar-active">
+            <label for="sidebar-active" class="open-sidebar-button">
+                <svg xmlns="http://www.w3.org/2000/svg" height="32" viewBox="0 -960 960 960" width="32" fill="#000"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg>
+            </label>
+    
+            <label id="overlay" for="sidebar-active"></label>
+            <div class="links-container">
+                <label for="sidebar-active" class="close-sidebar-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="32" viewBox="0 -960 960 960" width="32" fill="#000"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+                </label>
+    
+                <a href="index.html">Home</a>
+                <a href="html/about.html">About</a>
+                <a href="html/news.html">News</a>
+                <a href="html/contact.html">Contact</a>
+            </div>
         </nav>
     </header>
 
     <!-- Hero Section -->
     <section class="hero">
-        <h2>JKISINAMAL</h2>
-        <p>Visual Artist • Graphic Designer • Animator • Teacher • Missionary</p>
+        <p class="title-style">JKISINAMAL</p>
+        <p class="subtitle-style">Visual Artist • Graphic Designer • Animator • Teacher • Missionary</p>
     </section>
 
     <!-- Gallery Section -->
