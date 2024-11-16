@@ -80,7 +80,7 @@ header a {
     top: 0;
     right: 0;
     z-index: -9999;
-    transition: background 0.75s ease, width 0; 
+    transition: background 0.75s ease; 
 }
 
 @media(max-width: 850px) {
