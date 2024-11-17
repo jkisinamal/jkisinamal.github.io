@@ -125,3 +125,7 @@ header a {
         z-index: 9999;
     }
 }
+
+header h1 {
+    font-size: 1.25rem;
+}

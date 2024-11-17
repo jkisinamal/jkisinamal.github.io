@@ -68,7 +68,6 @@ header {
     justify-content: space-between;
     padding: 1rem 2rem;
     background-color: rgba(12, 12, 13, 0.9);
-    backdrop-filter: blur(10px);
     border-bottom: 2px solid #ddd;
     position: sticky;
     top: 0;
@@ -387,9 +386,9 @@ header a {
 }
 
 .about-layout, .item-layout {
-    display: flex;
     justify-content: center;
     gap: 2rem;
+    max-width: 100%;
 }
 
 .about-text, .item-text {
@@ -641,4 +640,26 @@ a {
 
 .sold {
     color: red;
+}
+
+/* Available Button */
+.status.available {
+    font-size: 3rem; /* Increase font size */
+    padding: 1rem 2rem; /* Increase padding */
+    margin: 2rem auto; /* Center and add margin */
+    display: block; /* Ensure it is a block element */
+}
+
+@media (max-width: 768px) {
+    .status.available {
+        font-size: 2rem; /* Adjust font size for smaller screens */
+        padding: 0.75rem 1.5rem; /* Adjust padding for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .status.available {
+        font-size: 1.5rem; /* Adjust font size for very small screens */
+        padding: 0.5rem 1rem; /* Adjust padding for very small screens */
+    }
 }
