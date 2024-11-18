@@ -60,6 +60,7 @@ body {
     position: fixed;
     z-index: -1;
     backdrop-filter: blur(200px);
+    overflow: hidden; /* Add this line */
 }
 
 /* Header */
@@ -67,15 +68,27 @@ header {
     display: flex;
     justify-content: space-between;
     padding: 1rem 2rem;
-    background-color: rgba(12, 12, 13, 0.9);
-    border-bottom: 2px solid #ddd;
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 1001;
     margin: 0;
 }
 
-header h1 {
+.backdrop-blur {
+    min-height: fit-content;
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    backdrop-filter: blur(2px);
+    z-index: 1000;
+    background-color: rgba(12, 12, 13, 0.9); 
+    border-bottom: 2px solid #ddd;
+    box-shadow: #0c0c0d 0 0 10px;
+}
+
+header a h1 {
     font-size: 1.5rem;
     color: #f9f9f9;
 }
@@ -172,7 +185,7 @@ header a {
 
 .overlay h4 {
     font-size: 1.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.25rem;
 }
 
 .overlay p {
@@ -291,7 +304,7 @@ header a {
     }
     .overlay h4 {
         font-size: 1.5rem;
-        margin-bottom: 1rem;
+        margin-bottom: 0.5rem;
     }
 
     .overlay a.button {
@@ -380,15 +393,21 @@ header a {
 }
 
 .landscape {
-    width: 100%;
+    width: 50%;
     height: 100%;
     max-width: 1000px;
 }
 
 .about-layout, .item-layout {
+    display: flex;
+    width: 100%;
     justify-content: center;
     gap: 2rem;
     max-width: 100%;
+}
+
+.about-img {
+    width: 50%;
 }
 
 .about-text, .item-text {
@@ -397,7 +416,7 @@ header a {
 
 .about-text {
     text-align: left;
-    max-width: 100%;
+    width: 100%;
     margin: 0 auto;
     padding: 0 1rem; /* Optional: Add padding for better readability */
 }
@@ -644,22 +663,22 @@ a {
 
 /* Available Button */
 .status.available {
-    font-size: 3rem; /* Increase font size */
-    padding: 1rem 2rem; /* Increase padding */
-    margin: 2rem auto; /* Center and add margin */
-    display: block; /* Ensure it is a block element */
+    font-size: 3rem;
+    padding: 1rem 2rem;
+    margin: 2rem auto;
+    display: block; 
 }
 
 @media (max-width: 768px) {
     .status.available {
-        font-size: 2rem; /* Adjust font size for smaller screens */
-        padding: 0.75rem 1.5rem; /* Adjust padding for smaller screens */
+        font-size: 2rem; 
+        padding: 0.75rem 1.5rem;
     }
 }
 
 @media (max-width: 480px) {
     .status.available {
-        font-size: 1.5rem; /* Adjust font size for very small screens */
-        padding: 0.5rem 1rem; /* Adjust padding for very small screens */
+        font-size: 1.5rem;
+        padding: 0.5rem 1rem;
     }
 }
