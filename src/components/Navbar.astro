@@ -21,13 +21,13 @@ import ThemeToggle from './ThemeToggle.astro';
 
       <button 
         id="menu-toggle" 
-        class="md:hidden flex flex-col justify-center items-center w-8 h-8 focus:outline-none z-50 group" 
+        class="md:hidden flex flex-col justify-center items-center w-8 h-8 focus:outline-none z-50" 
         aria-label="Toggle Menu"
       >
         <div class="flex flex-col items-center justify-center space-y-1.5 w-full">
-          <span class="w-5 h-0.5 bg-zinc-900 dark:bg-zinc-50 transition-all duration-300 ease-in-out origin-center"></span>
-          <span class="w-5 h-0.5 bg-zinc-900 dark:bg-zinc-50 transition-all duration-300 ease-in-out origin-center"></span>
-          <span class="w-5 h-0.5 bg-zinc-900 dark:bg-zinc-50 transition-all duration-300 ease-in-out origin-center"></span>
+          <span class="nav-line w-5 h-0.5 transition-all duration-300 ease-in-out origin-center"></span>
+          <span class="nav-line w-5 h-0.5 transition-all duration-300 ease-in-out origin-center"></span>
+          <span class="nav-line w-5 h-0.5 transition-all duration-300 ease-in-out origin-center"></span>
         </div>
       </button>
     </div>
@@ -45,6 +45,16 @@ import ThemeToggle from './ThemeToggle.astro';
 </nav>
 
 <style>
+  /* Define colors explicitly */
+  .nav-line {
+    background-color: #18181b; /* zinc-900 */
+  }
+
+  :global(.dark) .nav-line {
+    background-color: #fafafa !important; /* zinc-50 */
+  }
+
+  /* Symmetrical X logic */
   #menu-toggle.is-active span:nth-child(1) {
     transform: translateY(8px) rotate(45deg);
   }
