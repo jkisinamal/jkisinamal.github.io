@@ -2,8 +2,11 @@ import { defineConfig } from 'astro/config';
 import sanity from '@sanity/astro';
 import react from '@astrojs/react';
 
+import tailwindcss from '@tailwindcss/vite';
+
 export default defineConfig({
   output: 'static',
+
   integrations: [
     sanity({
       projectId: process.env.PUBLIC_SANITY_PROJECT_ID,
@@ -13,4 +16,8 @@ export default defineConfig({
     }),
     react(),
   ],
+
+  vite: {
+    plugins: [tailwindcss()],
+  },
 });
