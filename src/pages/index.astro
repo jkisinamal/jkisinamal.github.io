@@ -1,35 +1,28 @@
 ---
-import { sanityClient } from "sanity:client";
+import Layout from '../layouts/Layout.astro';
+import { client } from '../lib/sanity';
+import type { Painting } from '../lib/types';
 
-// 1. Define the shape of your project data
-interface Project {
-  title: string;
-  description: string;
-  imageUrl: string;
-}
-
-// 2. Tell the fetch command to expect an array of Projects
-const projects = await sanityClient.fetch<Project[]>(`*[_type == "project"]{
-  title,
-  description,
-  "imageUrl": image.asset->url
+const paintings: Painting[] = await client.fetch(`*[_type == "painting" && category == "gallery"]{
+  title, "imageUrl": image.asset->url, description
 }`);
 ---
-
-<html lang="en">
-  <body>
-    <h1>Portfolio Projects</h1>
-    
-    <div class="projects-grid">
-      {projects.map((project) => ( // TypeScript now knows 'project' is a 'Project'
-        <div class="project-card">
-          {project.imageUrl && (
-            <img src={project.imageUrl} alt={project.title} width="300" />
-          )}
-          <h2>{project.title}</h2>
-          <p>{project.description}</p>
+<Layout title="Gallery | Fine Art Portfolio">
+  <main class="pt-32 pb-20 px-4 md:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+      {paintings.map((p: Painting) => (
+        <div class="group relative aspect-3/4 overflow-hidden rounded-xl border border-white/10 bg-white/5">
+          <img 
+            src={p.imageUrl} 
+            alt={p.title}
+            class="w-full h-full object-cover grayscale transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-110" 
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent flex flex-col justify-end p-8 opacity-0 group-hover:opacity-100 transition-all duration-500 backdrop-blur-[2px]">
+            <h2 class="font-serif text-3xl mb-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">{p.title}</h2>
+            <p class="text-white/60 text-sm italic font-light">{p.description}</p>
+          </div>
         </div>
       ))}
     </div>
-  </body>
-</html>
+  </main>
+</Layout>

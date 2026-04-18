@@ -1,0 +1,21 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { client } from '../../lib/sanity';
+import { PortableText } from '@portabletext/react';
+
+export async function getStaticPaths() {
+  const posts = await client.fetch(`*[_type == "post"]{ "params": { "slug": slug.current } }`);
+  return posts;
+}
+
+const { slug } = Astro.params;
+const post = await client.fetch(`*[_type == "post" && slug.current == $slug][0]`, { slug });
+---
+<Layout title={post.title}>
+  <article class="pt-40 px-6 max-w-2xl mx-auto pb-20">
+    <h1 class="font-serif text-5xl md:text-7xl mb-8">{post.title}</h1>
+    <div class="prose dark:prose-invert prose-neutral max-w-none">
+      <PortableText value={post.body} />
+    </div>
+  </article>
+</Layout>

@@ -1,13 +1,4 @@
-// Example: Portfolio Item Schema
-const portfolioItem = {
-  name: 'project',
-  type: 'document',
-  title: 'Portfolio Project',
-  fields: [
-    { name: 'title', type: 'string', title: 'Project Title' },
-    { name: 'description', type: 'text', title: 'Description' },
-    { name: 'image', type: 'image', title: 'Project Image' },
-  ]
-}
+import painting from './painting';
+import post from './post'; 
 
-export const schemaTypes = [portfolioItem]
+export const schemaTypes = [painting, post];
