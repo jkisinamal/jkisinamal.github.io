@@ -8,8 +8,7 @@ export default defineConfig({
     sanity({
       projectId: process.env.PUBLIC_SANITY_PROJECT_ID,
       dataset: 'production',
-      studioBasePath: '/admin',
-      prerender: true, 
+      studioBasePath: process.env.NODE_ENV === 'development' ? '/admin' : undefined,
       useCdn: false,
     }),
     react(),
