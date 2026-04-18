@@ -3,7 +3,7 @@ import sanity from '@sanity/astro';
 import react from '@astrojs/react';
 
 export default defineConfig({
-  site: 'https://jkisinamal.github.io', // Update this
+  output: 'static',
   integrations: [
     sanity({
       projectId: 'hn7poruf', // Found in your .env
