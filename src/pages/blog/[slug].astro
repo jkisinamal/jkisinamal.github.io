@@ -12,9 +12,9 @@ const { slug } = Astro.params;
 const post = await client.fetch(`*[_type == "post" && slug.current == $slug][0]`, { slug });
 ---
 <Layout title={post.title}>
-  <article class="pt-40 px-6 max-w-2xl mx-auto pb-20">
-    <h1 class="font-serif text-5xl md:text-7xl mb-8">{post.title}</h1>
-    <div class="prose dark:prose-invert prose-neutral max-w-none">
+  <article class="pt-40 px-6 max-w-2xl mx-auto pb-20 min-h-screen">
+    <h1 class="font-serif text-5xl md:text-7xl mb-8 text-black dark:text-white">{post.title}</h1>
+    <div class="prose dark:prose-invert prose-neutral max-w-none text-black/80 dark:text-white/80">
       <PortableText value={post.body} />
     </div>
   </article>
