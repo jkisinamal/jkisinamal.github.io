@@ -23,8 +23,9 @@ import ThemeToggle from './ThemeToggle.astro';
         id="menu-toggle" 
         class="md:hidden flex flex-col justify-center items-center w-8 h-8 focus:outline-none z-50" 
         aria-label="Toggle Menu"
+        style="--line-color: #18181b;" 
       >
-        <div class="flex flex-col items-center justify-center space-y-1.5 w-full">
+        <div class="flex flex-col items-center justify-center space-y-1.5">
           <span class="nav-line w-5 h-0.5 transition-all duration-300 ease-in-out origin-center"></span>
           <span class="nav-line w-5 h-0.5 transition-all duration-300 ease-in-out origin-center"></span>
           <span class="nav-line w-5 h-0.5 transition-all duration-300 ease-in-out origin-center"></span>
@@ -36,25 +37,26 @@ import ThemeToggle from './ThemeToggle.astro';
       id="mobile-menu" 
       class="absolute top-[75px] left-0 w-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-8 flex flex-col space-y-6 text-center shadow-2xl transition-all duration-300 ease-in-out opacity-0 translate-y-[-20px] pointer-events-none z-40"
     >
-      <a href="/" class="text-xs uppercase tracking-[0.2em] text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 transition-colors">Gallery</a>
-      <a href="/purchase" class="text-xs uppercase tracking-[0.2em] text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 transition-colors">Purchase</a>
-      <a href="/blog" class="text-xs uppercase tracking-[0.2em] text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 transition-colors">Journal</a>
-      <a href="/contact" class="text-xs uppercase tracking-[0.2em] text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 transition-colors">Contact</a>
+      <a href="/" class="text-xs uppercase tracking-[0.2em] text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 py-1">Gallery</a>
+      <a href="/purchase" class="text-xs uppercase tracking-[0.2em] text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 py-1">Purchase</a>
+      <a href="/blog" class="text-xs uppercase tracking-[0.2em] text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 py-1">Journal</a>
+      <a href="/contact" class="text-xs uppercase tracking-[0.2em] text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 py-1">Contact</a>
     </div>
   </div>
 </nav>
 
 <style>
-  /* Define colors explicitly */
+  /* Base color for light mode */
   .nav-line {
-    background-color: #18181b; /* zinc-900 */
+    background-color: var(--line-color);
   }
 
-  :global(.dark) .nav-line {
-    background-color: #fafafa !important; /* zinc-50 */
+  /* Force white color in dark mode - Using !important to fight Brave */
+  :global(.dark) #menu-toggle {
+    --line-color: #fafafa !important;
   }
 
-  /* Symmetrical X logic */
+  /* Hamburger to X Animation */
   #menu-toggle.is-active span:nth-child(1) {
     transform: translateY(8px) rotate(45deg);
   }
@@ -65,6 +67,7 @@ import ThemeToggle from './ThemeToggle.astro';
     transform: translateY(-8px) rotate(-45deg);
   }
 
+  /* Dropdown Toggle */
   #mobile-menu.is-visible {
     opacity: 1;
     transform: translateY(0);
@@ -76,7 +79,6 @@ import ThemeToggle from './ThemeToggle.astro';
   function setupMenu() {
     const btn = document.getElementById('menu-toggle');
     const menu = document.getElementById('mobile-menu');
-
     if (!btn || !menu) return;
 
     const newBtn = btn.cloneNode(true);
@@ -94,7 +96,6 @@ import ThemeToggle from './ThemeToggle.astro';
       });
     });
   }
-
   setupMenu();
   document.addEventListener('astro:after-swap', setupMenu);
 </script>
