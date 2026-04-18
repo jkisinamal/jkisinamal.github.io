@@ -25,17 +25,19 @@ import ThemeToggle from './ThemeToggle.astro';
         aria-label="Toggle Menu"
       >
         <div class="relative w-6 h-6 flex items-center justify-center">
-          <div id="hamburger-icon" class="absolute flex flex-col justify-center items-center gap-1.5 transition-all duration-300 ease-in-out">
-            <b class="w-6 h-0.5 bg-current block rounded-full"></b>
-            <b class="w-6 h-0.5 bg-current block rounded-full"></b>
-            <b class="w-6 h-0.5 bg-current block rounded-full"></b>
+          
+          <div id="hamburger-icon" class="absolute inset-0 flex items-center justify-center transition-all duration-300 ease-in-out">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+              <path d="M5 7H19M5 12H19M5 17H19" />
+            </svg>
           </div>
 
-          <div id="close-icon" class="absolute inset-0 flex items-center justify-center transition-all duration-300 ease-in-out opacity-0 scale-75 pointer-events-none">
+          <div id="close-icon" class="absolute inset-0 flex items-center justify-center transition-all duration-300 ease-in-out opacity-0 scale-50 pointer-events-none">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
           </div>
+
         </div>
       </button>
     </div>
@@ -61,7 +63,7 @@ import ThemeToggle from './ThemeToggle.astro';
 
   #menu-toggle.is-active #close-icon {
     opacity: 1;
-    transform: scale(1.1); /* Slightly larger for visual balance */
+    transform: scale(1.1); /* Matches visual weight of hamburger */
     pointer-events: auto;
   }
 
