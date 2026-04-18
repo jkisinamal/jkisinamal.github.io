@@ -9,10 +9,10 @@ import ThemeToggle from './ThemeToggle.astro';
     
     <div class="flex items-center space-x-4 md:space-x-8">
       <div class="hidden md:flex space-x-8 text-xs uppercase tracking-widest text-zinc-500 dark:text-zinc-400">
-        <a href="/" class="hover:text-zinc-900 dark:hover:text-zinc-50 transition-colors">Gallery</a>
-        <a href="/purchase" class="hover:text-zinc-900 dark:hover:text-zinc-50 transition-colors">Purchase</a>
-        <a href="/blog" class="hover:text-zinc-900 dark:hover:text-zinc-50 transition-colors">Journal</a>
-        <a href="/contact" class="hover:text-zinc-900 dark:hover:text-zinc-50 transition-colors">Contact</a>
+        <a href="/" class="hover:text-zinc-900 dark:hover:text-zinc-50 transition">Gallery</a>
+        <a href="/purchase" class="hover:text-zinc-900 dark:hover:text-zinc-50 transition">Purchase</a>
+        <a href="/blog" class="hover:text-zinc-900 dark:hover:text-zinc-50 transition">Journal</a>
+        <a href="/contact" class="hover:text-zinc-900 dark:hover:text-zinc-50 transition">Contact</a>
       </div>
       
       <div class="hidden md:block w-[1px] h-4 bg-zinc-200 dark:bg-zinc-800"></div>
@@ -21,21 +21,28 @@ import ThemeToggle from './ThemeToggle.astro';
 
       <button 
         id="menu-toggle" 
-        class="md:hidden flex flex-col justify-center items-center w-8 h-8 focus:outline-none z-50" 
+        class="md:hidden flex items-center justify-center w-10 h-10 relative z-50 text-zinc-900 dark:text-zinc-50 focus:outline-none"
         aria-label="Toggle Menu"
-        style="--line-color: #18181b;" 
       >
-        <div class="flex flex-col items-center justify-center space-y-1.5">
-          <span class="nav-line w-5 h-0.5 transition-all duration-300 ease-in-out origin-center"></span>
-          <span class="nav-line w-5 h-0.5 transition-all duration-300 ease-in-out origin-center"></span>
-          <span class="nav-line w-5 h-0.5 transition-all duration-300 ease-in-out origin-center"></span>
+        <div class="relative w-6 h-6 flex items-center justify-center">
+          <div id="hamburger-icon" class="absolute flex flex-col justify-center items-center gap-1.5 transition-all duration-300 ease-in-out">
+            <b class="w-6 h-0.5 bg-current block rounded-full"></b>
+            <b class="w-6 h-0.5 bg-current block rounded-full"></b>
+            <b class="w-6 h-0.5 bg-current block rounded-full"></b>
+          </div>
+
+          <div id="close-icon" class="absolute inset-0 flex items-center justify-center transition-all duration-300 ease-in-out opacity-0 scale-75 pointer-events-none">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </div>
         </div>
       </button>
     </div>
 
     <div 
       id="mobile-menu" 
-      class="absolute top-[75px] left-0 w-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-8 flex flex-col space-y-6 text-center shadow-2xl transition-all duration-300 ease-in-out opacity-0 translate-y-[-20px] pointer-events-none z-40"
+      class="absolute top-[80px] left-0 w-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-8 flex flex-col space-y-6 text-center shadow-2xl transition-all duration-300 ease-in-out opacity-0 translate-y-[-20px] pointer-events-none z-40"
     >
       <a href="/" class="text-xs uppercase tracking-[0.2em] text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 py-1">Gallery</a>
       <a href="/purchase" class="text-xs uppercase tracking-[0.2em] text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 py-1">Purchase</a>
@@ -46,28 +53,18 @@ import ThemeToggle from './ThemeToggle.astro';
 </nav>
 
 <style>
-  /* Base color for light mode */
-  .nav-line {
-    background-color: var(--line-color);
-  }
-
-  /* Force white color in dark mode - Using !important to fight Brave */
-  :global(.dark) #menu-toggle {
-    --line-color: #fafafa !important;
-  }
-
-  /* Hamburger to X Animation */
-  #menu-toggle.is-active span:nth-child(1) {
-    transform: translateY(8px) rotate(45deg);
-  }
-  #menu-toggle.is-active span:nth-child(2) {
+  /* Transition Logic */
+  #menu-toggle.is-active #hamburger-icon {
     opacity: 0;
-  }
-  #menu-toggle.is-active span:nth-child(3) {
-    transform: translateY(-8px) rotate(-45deg);
+    transform: scale(0.6);
   }
 
-  /* Dropdown Toggle */
+  #menu-toggle.is-active #close-icon {
+    opacity: 1;
+    transform: scale(1.1); /* Slightly larger for visual balance */
+    pointer-events: auto;
+  }
+
   #mobile-menu.is-visible {
     opacity: 1;
     transform: translateY(0);
