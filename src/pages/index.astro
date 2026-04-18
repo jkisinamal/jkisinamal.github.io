@@ -12,24 +12,31 @@ const paintings: Painting[] = await client.fetch(`*[_type == "painting" && categ
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
       {paintings.map((p: Painting) => (
         <div 
-          class="painting-card group relative aspect-3/4 overflow-hidden rounded-xl border border-black/5 dark:border-white/10 bg-white/5 cursor-pointer"
-          tabindex="0"
+          class="painting-card group relative aspect-[3/4] overflow-hidden rounded-xl border border-black/5 dark:border-white/10 bg-zinc-200 dark:bg-zinc-800 cursor-pointer"
         >
           <img 
             src={p.imageUrl} 
             alt={p.title}
-            class="w-full h-full object-cover transition-all duration-1000 grayscale-0 group-[.is-active]:grayscale group-hover:grayscale group-[.is-active]:scale-110 group-hover:scale-110" 
+            class="painting-img w-full h-full object-cover transition-all duration-700 ease-in-out grayscale-0 group-hover:grayscale group-[.is-active]:grayscale group-hover:scale-105 group-[.is-active]:scale-105" 
           />
           
-          <div class="absolute inset-0 flex flex-col justify-end p-6 opacity-0 group-[.is-active]:opacity-100 group-hover:opacity-100 transition-all duration-500">
+          <div class="absolute inset-0 z-20 flex flex-col justify-end p-5 opacity-0 group-hover:opacity-100 group-[.is-active]:opacity-100 transition-opacity duration-500 ease-in-out">
             
-            <div class="glass-card w-full p-6 rounded-2xl border border-white/20 dark:border-white/10 backdrop-blur-md shadow-2xl translate-y-8 group-[.is-active]:translate-y-0 group-hover:translate-y-0 transition-transform duration-500">
-              <h2 class="font-serif text-2xl mb-2 text-zinc-900 dark:text-white">
-                {p.title}
-              </h2>
-              <p class="text-zinc-700 dark:text-zinc-300 text-sm italic font-light leading-relaxed">
-                {p.description}
-              </p>
+            <div class="glass-card relative w-full p-6 rounded-2xl border border-white/40 dark:border-white/10 shadow-2xl overflow-hidden translate-y-4 group-hover:translate-y-0 group-[.is-active]:translate-y-0 transition-transform duration-500 ease-out">
+              
+              <div class="absolute inset-0 z-0">
+                <img 
+                  src={p.imageUrl} 
+                  class="absolute w-[400%] h-[400%] max-w-none bottom-0 left-1/2 -translate-x-1/2 blur-xl opacity-80 grayscale" 
+                  aria-hidden="true"
+                />
+                <div class="absolute inset-0 bg-white/60 dark:bg-black/60"></div>
+              </div>
+
+              <div class="relative z-10">
+                <h2 class="font-serif text-2xl mb-1 text-zinc-900 dark:text-white">{p.title}</h2>
+                <p class="text-zinc-700 dark:text-zinc-300 text-sm italic font-light leading-relaxed">{p.description}</p>
+              </div>
             </div>
 
           </div>
@@ -40,41 +47,51 @@ const paintings: Painting[] = await client.fetch(`*[_type == "painting" && categ
 </Layout>
 
 <style>
-  /* Glassmorphism Styles */
-  .glass-card {
-    /* Adaptive background for light/dark themes */
-    background: rgba(255, 255, 255, 0.7);
+  /* Base Card Performance */
+  .painting-card {
+    contain: paint;
+    isolation: isolate;
   }
 
-  :global(.dark) .glass-card {
-    background: rgba(15, 15, 15, 0.6);
+  /* Image Transitions */
+  .painting-img {
+    will-change: transform, filter;
+  }
+
+  /* Glass Card Specifics */
+  .glass-card {
+    /* We don't use backdrop-filter here to avoid the "snap" */
+    background: transparent;
+  }
+
+  /* Ensure the lens image stays centered and covers the area */
+  .glass-card img {
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* Fix for Safari rounded corners */
+  .painting-card, .glass-card {
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
   }
 </style>
 
 <script>
   function setupGallery() {
     const cards = document.querySelectorAll('.painting-card');
-    
     cards.forEach(card => {
-      // Toggle active state on click (Mobile)
-      card.addEventListener('click', (e) => {
-        if (card.classList.contains('is-active')) {
-          card.classList.remove('is-active');
-        } else {
-          cards.forEach(c => c.classList.remove('is-active'));
-          card.classList.add('is-active');
-        }
+      card.addEventListener('click', () => {
+        const isActive = card.classList.contains('is-active');
+        cards.forEach(c => c.classList.remove('is-active'));
+        if (!isActive) card.classList.add('is-active');
       });
     });
-
-    // Reset when clicking outside
     document.addEventListener('click', (e) => {
       if (!(e.target as Element).closest('.painting-card')) {
         cards.forEach(c => c.classList.remove('is-active'));
       }
     });
   }
-
   setupGallery();
   document.addEventListener('astro:after-swap', setupGallery);
 </script>
