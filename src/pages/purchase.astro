@@ -8,23 +8,37 @@ const works: Painting[] = await client.fetch(`*[_type == "painting" && category 
 }`);
 ---
 <Layout title="Acquire Art | Available Collection">
-  <main class="pt-32 px-4 md:px-8 max-w-7xl mx-auto min-h-screen">
-    <h1 class="font-serif text-5xl md:text-7xl mb-16 italic font-light text-black dark:text-white">Available Works</h1>
+  <main class="pt-24 md:pt-32 pb-20 px-4 md:px-8 max-w-7xl mx-auto min-h-screen">
+    <h1 class="font-serif text-4xl sm:text-5xl md:text-7xl mb-10 md:mb-16 italic font-light text-black dark:text-white transition-all">
+      Available Works
+    </h1>
     
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
       {works.map((w: Painting) => (
-        <div class="group bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-3xl p-6 transition-all hover:bg-black/[0.08] dark:hover:bg-white/[0.08]">
-          <div class="overflow-hidden rounded-2xl mb-8">
-             <img src={w.imageUrl} alt={w.title} class="w-full aspect-square object-cover transition-transform duration-700 group-hover:scale-105" />
+        <div class="group bg-zinc-100/50 dark:bg-white/5 border border-black/5 dark:border-white/10 rounded-[2rem] p-4 md:p-6 transition-all hover:shadow-2xl hover:shadow-black/5 dark:hover:shadow-white/5">
+          
+          <div class="overflow-hidden rounded-[1.5rem] mb-6 md:mb-8 bg-zinc-200 dark:bg-zinc-800">
+             <img 
+              src={w.imageUrl} 
+              alt={w.title} 
+              loading="lazy"
+              class="w-full aspect-square object-cover transition-transform duration-700 group-hover:scale-105" 
+            />
           </div>
-          <div class="flex justify-between items-center">
-            <div>
-              <h3 class="text-3xl font-serif text-black dark:text-white">{w.title}</h3>
-              <p class="text-black/40 dark:text-white/40 mt-1">${w.price?.toLocaleString()} USD</p>
+
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 px-2 pb-2">
+            <div class="space-y-1">
+              <h3 class="text-2xl md:text-3xl font-serif text-black dark:text-white leading-tight">
+                {w.title}
+              </h3>
+              <p class="text-black/50 dark:text-white/40 font-medium tracking-tight">
+                ${w.price?.toLocaleString()} <span class="text-[10px] uppercase tracking-widest ml-1">USD</span>
+              </p>
             </div>
+            
             <a 
               href={`/contact?interest=${w.slug}`} 
-              class="bg-black text-white dark:bg-white dark:text-black px-8 py-4 rounded-full font-bold hover:scale-105 transition-all shadow-xl shadow-black/5 dark:shadow-white/5"
+              class="w-full sm:w-auto text-center bg-black text-white dark:bg-white dark:text-black px-10 py-4 rounded-full font-bold hover:scale-105 active:scale-95 transition-all shadow-lg shadow-black/10 dark:shadow-white/5 text-sm uppercase tracking-widest"
             >
               Inquire
             </a>
@@ -34,3 +48,11 @@ const works: Painting[] = await client.fetch(`*[_type == "painting" && category 
     </div>
   </main>
 </Layout>
+
+<style>
+  /* Ensure smooth rendering of the scale effect on mobile */
+  .group img {
+    backface-visibility: hidden;
+    transform: translateZ(0);
+  }
+</style>
