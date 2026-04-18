@@ -1,0 +1,42 @@
+name: Deploy to GitHub Pages
+
+on:
+  # Trigger on code pushes to main
+  push:
+    branches: [main]
+  # Trigger when Sanity sends the "sanity-update" webhook
+  repository_dispatch:
+    types: [sanity-update]
+  # Allows you to run this manually from the Actions tab
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout your repository
+        uses: actions/checkout@v4
+
+      - name: Install, build, and upload your site
+        # We use the official Astro action for the simplest setup
+        uses: withastro/action@v3
+        env:
+          # These must match the names in your astro.config.mjs
+          PUBLIC_SANITY_PROJECT_ID: ${{ secrets.PUBLIC_SANITY_PROJECT_ID }}
+          PUBLIC_SANITY_DATASET: ${{ secrets.PUBLIC_SANITY_DATASET }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
