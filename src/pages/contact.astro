@@ -5,27 +5,63 @@ const interest = Astro.url.searchParams.get('interest') || "";
 <Layout title="Contact & Inquiries">
   <main class="pt-20 grid lg:grid-cols-2 min-h-screen items-stretch">
     <div class="px-6 md:px-12 flex flex-col justify-center py-20 max-w-2xl mx-auto">
-      <h1 class="font-serif text-6xl md:text-8xl mb-8 italic">Contact</h1>
-      <p class="text-white/50 mb-12 text-lg leading-relaxed font-light">
+      <h1 class="font-serif text-6xl md:text-8xl mb-8 italic text-black dark:text-white">Contact</h1>
+      <p class="text-black/50 dark:text-white/50 mb-12 text-lg leading-relaxed font-light">
         {interest ? `Regarding your interest in "${interest}", please provide your details below and I will get back to you within 24 hours.` : "For commission requests, gallery inquiries, or to simply say hello."}
       </p>
       
       <form action="https://api.web3forms.com/submit" method="POST" class="space-y-6">
         <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_KEY">
+        
         <div class="grid md:grid-cols-2 gap-6">
-          <input type="text" name="name" placeholder="Name" required class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl focus:border-white/30 focus:outline-none transition-colors" />
-          <input type="email" name="email" placeholder="Email" required class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl focus:border-white/30 focus:outline-none transition-colors" />
+          <input 
+            type="text" 
+            name="name" 
+            placeholder="Name" 
+            required 
+            class="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 p-5 rounded-2xl focus:border-black/30 dark:focus:border-white/30 focus:outline-none transition-colors text-black dark:text-white placeholder:text-black/30 dark:placeholder:text-white/30" 
+          />
+          <input 
+            type="email" 
+            name="email" 
+            placeholder="Email" 
+            required 
+            class="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 p-5 rounded-2xl focus:border-black/30 dark:focus:border-white/30 focus:outline-none transition-colors text-black dark:text-white placeholder:text-black/30 dark:placeholder:text-white/30" 
+          />
         </div>
-        <input type="text" name="subject" value={interest ? `Inquiry: ${interest}` : ""} placeholder="Subject" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl focus:border-white/30 focus:outline-none transition-colors" />
-        <textarea name="message" rows="6" placeholder="Your Message" required class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl focus:border-white/30 focus:outline-none transition-colors resize-none"></textarea>
-        <button type="submit" class="w-full bg-white text-black py-5 rounded-2xl font-bold text-lg hover:bg-neutral-200 transition-all active:scale-[0.98]">
+
+        <input 
+          type="text" 
+          name="subject" 
+          value={interest ? `Inquiry: ${interest}` : ""} 
+          placeholder="Subject" 
+          class="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 p-5 rounded-2xl focus:border-black/30 dark:focus:border-white/30 focus:outline-none transition-colors text-black dark:text-white placeholder:text-black/30 dark:placeholder:text-white/30" 
+        />
+
+        <textarea 
+          name="message" 
+          rows="6" 
+          placeholder="Your Message" 
+          required 
+          class="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 p-5 rounded-2xl focus:border-black/30 dark:focus:border-white/30 focus:outline-none transition-colors text-black dark:text-white placeholder:text-black/30 dark:placeholder:text-white/30 resize-none"
+        ></textarea>
+
+        <button 
+          type="submit" 
+          class="w-full bg-black text-white dark:bg-white dark:text-black py-5 rounded-2xl font-bold text-lg hover:opacity-90 transition-all active:scale-[0.98] shadow-xl shadow-black/5 dark:shadow-white/5"
+        >
           Send Message
         </button>
       </form>
     </div>
-    <div class="hidden lg:block relative border-l border-white/10">
-       <img src="/artist-studio.jpg" alt="The Studio" class="absolute inset-0 w-full h-full object-cover grayscale opacity-40" />
-       <div class="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] to-transparent"></div>
+
+    <div class="hidden lg:block relative border-l border-black/10 dark:border-white/10">
+       <img 
+         src="/artist-studio.jpg" 
+         alt="The Studio" 
+         class="absolute inset-0 w-full h-full object-cover grayscale opacity-40 dark:opacity-20 transition-opacity" 
+       />
+       <div class="absolute inset-0 bg-gradient-to-r from-white dark:from-[#0a0a0a] to-transparent"></div>
     </div>
   </main>
 </Layout>
