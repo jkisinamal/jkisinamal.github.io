@@ -24,15 +24,28 @@ import Layout from '../layouts/Layout.astro';
         <form action="#" class="space-y-6">
           <div class="space-y-2">
             <label class="text-[10px] uppercase tracking-widest opacity-50">Full Name</label>
-            <input type="text" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 focus:border-black dark:focus:border-white outline-none transition-colors" />
+            <input 
+              type="text" 
+              placeholder="e.g. Juan Luna"
+              class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 focus:border-black dark:focus:border-white outline-none transition-colors placeholder:text-black/20 dark:placeholder:text-white/20" 
+            />
           </div>
           <div class="space-y-2">
             <label class="text-[10px] uppercase tracking-widest opacity-50">Email Address</label>
-            <input type="email" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 focus:border-black dark:focus:border-white outline-none transition-colors" />
+            <input 
+              type="email" 
+              placeholder="juan@example.com"
+              class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 focus:border-black dark:focus:border-white outline-none transition-colors placeholder:text-black/20 dark:placeholder:text-white/20" 
+            />
           </div>
           <div class="space-y-2">
             <label class="text-[10px] uppercase tracking-widest opacity-50">Message</label>
-            <textarea rows="4" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 focus:border-black dark:focus:border-white outline-none transition-colors resize-none"></textarea>
+            <textarea 
+              id="message-field"
+              rows="4" 
+              placeholder="I am interested in acquiring this piece..."
+              class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 focus:border-black dark:focus:border-white outline-none transition-colors resize-none placeholder:text-black/20 dark:placeholder:text-white/20"
+            ></textarea>
           </div>
           <button type="submit" class="w-full bg-black text-white dark:bg-white dark:text-black py-5 rounded-full text-xs uppercase tracking-[0.2em] font-bold hover:opacity-80 transition-opacity">
             Send Inquiry
@@ -42,3 +55,22 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </main>
 </Layout>
+
+<script>
+  function prefillInquiry() {
+    // 1. Get the artwork name from the URL (?artwork=Title)
+    const params = new URLSearchParams(window.location.search);
+    const artworkTitle = params.get('artwork');
+    const messageField = document.getElementById('message-field') as HTMLTextAreaElement;
+
+    // 2. If a title exists, fill the textarea
+    if (artworkTitle && messageField) {
+      messageField.value = `I am interested in inquiring about your work titled "${decodeURIComponent(artworkTitle)}". Please let me know the next steps for acquisition.`;
+    }
+  }
+
+  // Run on initial load
+  prefillInquiry();
+  // Run after Astro page transitions
+  document.addEventListener('astro:after-swap', prefillInquiry);
+</script>
