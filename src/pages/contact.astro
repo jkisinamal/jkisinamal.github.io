@@ -6,15 +6,6 @@ import Layout from '../layouts/Layout.astro';
   <main class="pt-14 pb-20 px-4 md:px-8 max-w-7xl mx-auto">
     <div class="grid lg:grid-cols-2 gap-16 items-center">
       
-      <div class="relative group">
-        <div class="absolute -inset-4 bg-zinc-100 dark:bg-zinc-800 rounded-3xl -z-10 transition-transform duration-700 group-hover:scale-105"></div>
-        <img 
-          src="/artist-studio.jpg" 
-          alt="The Studio" 
-          class="rounded-2xl shadow-2xl w-full aspect-[4/5] object-cover grayscale hover:grayscale-0 transition-all duration-1000"
-        />
-      </div>
-
       <div class="max-w-md">
         <h1 class="font-serif text-6xl italic mb-6">Get in Touch</h1>
         <p class="text-zinc-500 dark:text-zinc-400 mb-12 leading-relaxed">
@@ -52,25 +43,36 @@ import Layout from '../layouts/Layout.astro';
           </button>
         </form>
       </div>
+
+      <a href="/about" class="relative group block cursor-pointer order-first lg:order-last">
+        <div class="absolute -inset-4 bg-zinc-100 dark:bg-zinc-800 rounded-3xl -z-10 transition-transform duration-700 group-hover:scale-105 group-active:scale-95"></div>
+        <img 
+          src="/artist-studio.jpg" 
+          alt="The Studio - Click to learn more about the artist" 
+          class="rounded-2xl shadow-2xl w-full aspect-[4/5] object-cover grayscale hover:grayscale-0 transition-all duration-1000 group-hover:brightness-110"
+        />
+        <div class="absolute bottom-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+           <span class="bg-white/10 backdrop-blur-md text-white text-[10px] uppercase tracking-widest px-4 py-2 rounded-full border border-white/20">
+             About the Artist
+           </span>
+        </div>
+      </a>
+
     </div>
   </main>
 </Layout>
 
 <script>
   function prefillInquiry() {
-    // 1. Get the artwork name from the URL (?artwork=Title)
     const params = new URLSearchParams(window.location.search);
     const artworkTitle = params.get('artwork');
     const messageField = document.getElementById('message-field') as HTMLTextAreaElement;
 
-    // 2. If a title exists, fill the textarea
     if (artworkTitle && messageField) {
       messageField.value = `I am interested in inquiring about your work titled "${decodeURIComponent(artworkTitle)}". Please let me know the next steps for acquisition.`;
     }
   }
 
-  // Run on initial load
   prefillInquiry();
-  // Run after Astro page transitions
   document.addEventListener('astro:after-swap', prefillInquiry);
 </script>
