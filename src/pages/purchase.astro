@@ -3,12 +3,13 @@ import Layout from '../layouts/Layout.astro';
 import { client } from '../lib/sanity.ts';
 import type { Artwork } from '../lib/types.ts';
 
-// THE FIX: Added the projection to get imageUrl, medium, and price
 const works: Artwork[] = await client.fetch(`*[_type == "artwork" && isAvailable == true]{
-  title,
-  price,
+  title, 
+  price, 
   medium,
-  "imageUrl": image.asset->url
+  description,
+  "imageUrl": image.asset->url, 
+  "slug": slug.current
 }`);
 
 const formatPrice = (price: number) => {
@@ -22,26 +23,81 @@ const formatPrice = (price: number) => {
 
 <Layout title="Purchase | JKISINAMAL">
   <main class="pb-20 px-4 md:px-8 max-w-7xl mx-auto min-h-screen">
-    <div class="mb-24">
+    <div class="mb-16 pt-10">
       <h1 class="font-serif text-5xl md:text-8xl italic mb-4 text-black dark:text-white">Available Works</h1>
+      <p class="text-[10px] uppercase tracking-[0.3em] opacity-40">Direct acquisition from the studio</p>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-20">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
       {works.map((w: Artwork) => (
-        <div class="group">
-          <div class="overflow-hidden rounded-[2rem] mb-8 bg-zinc-100 dark:bg-white/5 aspect-square border border-black/5 dark:border-white/10">
-             {/* w.imageUrl will now work because of the updated query above */}
-             <img src={w.imageUrl} alt={w.title} class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+        <div class="group relative flex flex-col p-4 rounded-[2.5rem] border border-black/5 dark:border-white/10 overflow-hidden glass-container shadow-sm">
+          
+          <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-white/10 dark:bg-black/10 backdrop-blur-md"></div>
           </div>
-          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6">
-            <div>
-              <span class="text-[10px] uppercase tracking-[0.3em] text-zinc-400">{w.medium}</span>
-              <h3 class="text-3xl font-serif text-black dark:text-white italic">{w.title}</h3>
-              <p class="text-xl text-black/60 dark:text-white/40">{w.price ? formatPrice(w.price) : 'Contact for Price'}</p>
+
+          <div class="relative z-10 flex flex-col h-full">
+            <div class="relative overflow-hidden rounded-[1.8rem] mb-6 bg-zinc-100 dark:bg-zinc-900 border border-black/5 dark:border-white/5">
+              <img 
+                src={w.imageUrl} 
+                alt={w.title} 
+                class="w-full h-auto object-cover transition-all duration-700 ease-in-out group-hover:scale-105" 
+              />
+              
+              <div class="absolute inset-0 z-20 flex flex-col justify-end p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div class="glass-detail-card relative w-full p-5 rounded-2xl border border-white/40 dark:border-white/10 shadow-2xl overflow-hidden">
+                  <div class="absolute inset-0 z-0">
+                    <img src={w.imageUrl} class="absolute w-[400%] h-[400%] max-w-none blur-2xl opacity-60 grayscale" />
+                    <div class="absolute inset-0 bg-white/70 dark:bg-black/80"></div>
+                  </div>
+                  <div class="relative z-10">
+                    <span class="text-[8px] uppercase tracking-widest text-black/40 dark:text-white/40 mb-1 block">{w.medium}</span>
+                    <h2 class="text-xl mb-1 text-zinc-900 dark:text-white font-serif italic">{w.title}</h2>
+                    <p class="text-zinc-700 dark:text-zinc-300 text-xs italic line-clamp-2">{w.description}</p>
+                  </div>
+                </div>
+              </div>
             </div>
-            <a href={`/contact?interest=${encodeURIComponent(w.title)}`} class="bg-black text-white dark:bg-white dark:text-black px-12 py-5 rounded-full font-bold text-xs uppercase tracking-widest hover:opacity-80 transition-all">Inquire</a>
+
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 px-2 pb-2">
+              <div class="flex flex-col">
+                <h3 class="text-2xl font-serif text-black dark:text-white italic leading-tight">{w.title}</h3>
+                <p class="text-lg font-light text-black/60 dark:text-white/40">
+                  {w.price ? formatPrice(w.price) : 'Contact for Price'}
+                </p>
+              </div>
+
+              <a 
+                href={`/contact?interest=${encodeURIComponent(w.title)}`} 
+                class="whitespace-nowrap bg-black text-white dark:bg-white dark:text-black px-8 py-4 rounded-full font-bold text-[9px] uppercase tracking-widest hover:scale-105 transition-all duration-300"
+              >
+                Inquire
+              </a>
+            </div>
           </div>
         </div>
       ))}
     </div>
   </main>
 </Layout>
+
+<style>
+  @reference "../styles/global.css";
+  
+  .glass-container {
+    contain: paint;
+    isolation: isolate;
+    background: transparent;
+  }
+
+  .glass-detail-card {
+    background: transparent;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+
+  /* Safari Fix for rounded corner leakage */
+  .glass-container, .glass-detail-card {
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+  }
+</style>
