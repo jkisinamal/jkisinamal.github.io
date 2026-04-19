@@ -34,29 +34,29 @@ const filters = [
         ))}
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8" id="gallery-grid">
+      <div class="columns-1 md:columns-2 lg:columns-3 gap-6 md:gap-8 space-y-6 md:space-y-8" id="gallery-grid">
         {artworks.map((p: Artwork) => (
           <div 
-            class="painting-card group relative aspect-[3/4] overflow-hidden rounded-2xl border border-black/5 dark:border-white/10 bg-zinc-100 dark:bg-zinc-800 cursor-pointer touch-manipulation" 
+            class="painting-card break-inside-avoid group relative overflow-hidden rounded-2xl border border-black/5 dark:border-white/10 bg-zinc-100 dark:bg-zinc-800 cursor-pointer touch-manipulation mb-6 md:mb-8" 
             data-medium={p.medium ? p.medium.toLowerCase() : ''}
           >
             <img 
               src={p.imageUrl} 
               alt={p.title} 
-              class="painting-img w-full h-full object-cover transition-all duration-700 ease-in-out will-change-transform" 
-              style="backface-visibility: hidden; transform-style: preserve-3d;"
+              class="painting-img w-full h-auto block grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105 ease-in-out" 
             />
             
             <div class="details-overlay absolute inset-0 z-20 flex flex-col justify-end p-4 md:p-5 opacity-0 transition-all duration-500 ease-in-out">
-              <div class="glass-card relative w-full p-5 rounded-2xl border border-white/40 dark:border-white/10 shadow-2xl overflow-hidden">
+              <div class="glass-card relative w-full min-h-[120px] p-5 rounded-2xl border border-white/40 dark:border-white/10 shadow-2xl overflow-hidden flex flex-col justify-center">
                 <div class="absolute inset-0 z-0">
                   <img src={p.imageUrl} class="absolute w-[400%] h-[400%] max-w-none blur-2xl opacity-60 grayscale" />
                   <div class="absolute inset-0 bg-white/75 dark:bg-black/75"></div>
                 </div>
                 <div class="relative z-10 text-left">
                   <span class="text-[8px] uppercase tracking-widest text-black/60 dark:text-white/50 mb-1 block font-bold">{p.medium}</span>
-                  <h2 class="text-xl md:text-2xl mb-1 text-zinc-900 dark:text-white font-serif italic leading-tight">{p.title}</h2>
-                  <p class="text-zinc-800 dark:text-zinc-200 text-xs italic leading-relaxed">{p.description}</p>
+                  {/* Fixed: No italic on hover to prevent jitter */}
+                  <h2 class="text-xl md:text-2xl mb-1 text-zinc-900 dark:text-white font-serif leading-tight">{p.title}</h2>
+                  <p class="text-zinc-800 dark:text-zinc-200 text-xs italic leading-relaxed line-clamp-4">{p.description}</p>
                 </div>
               </div>
             </div>
@@ -76,28 +76,19 @@ const filters = [
     @apply border-black dark:border-white text-black dark:text-white bg-white dark:bg-zinc-800 scale-105 z-10; 
   }
 
-  /* Base state now includes the gradient but hidden by opacity */
   .details-overlay {
-    background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 70%);
+    background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%);
   }
 
-  /* Shared Active State triggers */
   .painting-card:hover .details-overlay,
   .painting-card.is-tapped .details-overlay {
     opacity: 1;
-  }
-
-  .painting-card:hover .painting-img,
-  .painting-card.is-tapped .painting-img {
-    transform: scale(1.05);
-    filter: grayscale(100%);
   }
 
   .glass-card { 
     background: transparent; 
     -webkit-backdrop-filter: blur(12px); 
     backdrop-filter: blur(12px); 
-    height: auto;
   }
   
   .painting-card, .glass-card { -webkit-mask-image: -webkit-radial-gradient(white, black); }
@@ -113,9 +104,7 @@ const filters = [
         e.stopPropagation();
         filterBtns.forEach(b => b.classList.remove('is-active'));
         btn.classList.add('is-active');
-        
         const filter = btn.getAttribute('data-filter') || 'all';
-        
         cards.forEach(card => {
           const m = card.getAttribute('data-medium') || '';
           (card as HTMLElement).style.display = (filter === 'all' || m.includes(filter)) ? 'block' : 'none';

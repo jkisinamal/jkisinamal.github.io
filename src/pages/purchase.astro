@@ -28,7 +28,7 @@ const formatPrice = (price: number) => {
       <p class="text-[9px] uppercase tracking-[0.3em] text-black/50 dark:text-white/40">Direct acquisition from the studio</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-y-10 md:gap-x-12 md:gap-y-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-y-10 md:gap-x-12 md:gap-y-16 items-start">
       {works.map((w: Artwork) => (
         <div class="purchase-card group relative flex flex-col p-4 rounded-[2rem] border border-black/5 dark:border-white/10 overflow-hidden glass-container shadow-sm touch-manipulation cursor-pointer">
           
@@ -38,10 +38,11 @@ const formatPrice = (price: number) => {
 
           <div class="relative z-10 flex flex-col h-full">
             <div class="relative overflow-hidden rounded-[1.5rem] mb-6 bg-zinc-100 dark:bg-zinc-900 border border-black/5 dark:border-white/5">
+              {/* Changed h-full object-cover to h-auto block */}
               <img 
                 src={w.imageUrl} 
                 alt={w.title} 
-                class="purchase-img w-full h-auto object-cover transition-all duration-700 ease-in-out will-change-transform" 
+                class="purchase-img w-full h-auto block transition-all duration-700 ease-in-out will-change-transform" 
                 style="backface-visibility: hidden; transform-style: preserve-3d;"
               />
               
@@ -60,7 +61,7 @@ const formatPrice = (price: number) => {
               </div>
             </div>
 
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-5 px-1 pb-1">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-5 px-1 pb-1 mt-auto">
               <div>
                 <h3 class="text-2xl font-serif text-black dark:text-white italic leading-tight">{w.title}</h3>
                 <p class="text-lg font-medium text-black/70 dark:text-white/70">
