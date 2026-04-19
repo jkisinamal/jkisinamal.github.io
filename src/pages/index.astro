@@ -14,6 +14,7 @@ const filters = [
   { label: 'All', value: 'all' },
   { label: 'Oil', value: 'oil' },
   { label: 'Acrylic', value: 'acrylic' },
+  { label: 'Watercolor', value: 'watercolor' },
   { label: 'Sketches', value: 'sketch' }
 ];
 ---
@@ -21,11 +22,12 @@ const filters = [
 <Layout title="Gallery | JKISINAMAL">
   <main class="pb-20 px-4 md:px-8">
     <div class="max-w-7xl mx-auto text-center">
-      <div class="flex overflow-x-auto no-scrollbar md:flex-wrap justify-start md:justify-center gap-3 mb-12 pb-4">
+      
+      <div class="flex flex-wrap justify-center gap-3 mb-12 py-4">
         {filters.map(f => (
           <button 
             data-filter={f.value}
-            class="filter-btn whitespace-nowrap px-8 py-3 rounded-full border border-black/5 dark:border-white/10 text-[10px] uppercase tracking-[0.2em] transition-all duration-300 bg-zinc-50 dark:bg-zinc-900 text-zinc-500"
+            class="filter-btn px-7 py-3 rounded-full border border-black/5 dark:border-white/10 text-[10px] uppercase tracking-[0.2em] transition-all duration-300 bg-zinc-50 dark:bg-zinc-900 text-zinc-500 hover:text-black dark:hover:text-white"
           >
             {f.label}
           </button>
@@ -34,19 +36,27 @@ const filters = [
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8" id="gallery-grid">
         {artworks.map((p: Artwork) => (
-          <div class="painting-card group relative aspect-[3/4] overflow-hidden rounded-2xl border border-black/5 dark:border-white/10 bg-zinc-100 dark:bg-zinc-800" data-medium={p.medium}>
-            <img src={p.imageUrl} alt={p.title} class="painting-img w-full h-full object-cover transition-all duration-700" />
+          <div 
+            class="painting-card group relative aspect-[3/4] overflow-hidden rounded-2xl border border-black/5 dark:border-white/10 bg-zinc-100 dark:bg-zinc-800 cursor-pointer touch-manipulation" 
+            data-medium={p.medium ? p.medium.toLowerCase() : ''}
+          >
+            <img 
+              src={p.imageUrl} 
+              alt={p.title} 
+              class="painting-img w-full h-full object-cover transition-all duration-700 ease-in-out will-change-transform" 
+              style="backface-visibility: hidden; transform-style: preserve-3d;"
+            />
             
-            <div class="details-overlay absolute inset-0 z-20 flex flex-col justify-end p-4 md:p-5 transition-opacity duration-500">
+            <div class="details-overlay absolute inset-0 z-20 flex flex-col justify-end p-4 md:p-5 opacity-0 transition-all duration-500 ease-in-out">
               <div class="glass-card relative w-full p-5 rounded-2xl border border-white/40 dark:border-white/10 shadow-2xl overflow-hidden">
                 <div class="absolute inset-0 z-0">
                   <img src={p.imageUrl} class="absolute w-[400%] h-[400%] max-w-none blur-2xl opacity-60 grayscale" />
-                  <div class="absolute inset-0 bg-white/70 dark:bg-black/70"></div>
+                  <div class="absolute inset-0 bg-white/75 dark:bg-black/75"></div>
                 </div>
                 <div class="relative z-10 text-left">
-                  <span class="text-[8px] uppercase tracking-widest text-black/40 dark:text-white/40 mb-1 block">{p.medium}</span>
+                  <span class="text-[8px] uppercase tracking-widest text-black/60 dark:text-white/50 mb-1 block font-bold">{p.medium}</span>
                   <h2 class="text-xl md:text-2xl mb-1 text-zinc-900 dark:text-white font-serif italic leading-tight">{p.title}</h2>
-                  <p class="text-zinc-700 dark:text-zinc-300 text-xs italic line-clamp-2">{p.description}</p>
+                  <p class="text-zinc-800 dark:text-zinc-200 text-xs italic leading-relaxed">{p.description}</p>
                 </div>
               </div>
             </div>
@@ -59,34 +69,77 @@ const filters = [
 
 <style>
   @reference "../styles/global.css";
-  .no-scrollbar::-webkit-scrollbar { display: none; }
-  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   
-  /* DEFAULT: Visible on Mobile (Touch) */
-  .details-overlay {
-    opacity: 1;
-    background: linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 50%);
+  .painting-card { contain: paint; isolation: isolate; -webkit-tap-highlight-color: transparent; }
+  
+  .filter-btn.is-active { 
+    @apply border-black dark:border-white text-black dark:text-white bg-white dark:bg-zinc-800 scale-105 z-10; 
   }
 
-  /* DESKTOP HOVER: Only applies if the device supports hovering */
-  @media (hover: hover) {
-    .details-overlay {
-      opacity: 0;
-      background: transparent;
-    }
-    .painting-card:hover .details-overlay {
-      opacity: 1;
-    }
-    .painting-card:hover .painting-img {
-      transform: scale(1.05);
-      filter: grayscale(100%);
-    }
+  /* Base state now includes the gradient but hidden by opacity */
+  .details-overlay {
+    background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 70%);
+  }
+
+  /* Shared Active State triggers */
+  .painting-card:hover .details-overlay,
+  .painting-card.is-tapped .details-overlay {
+    opacity: 1;
+  }
+
+  .painting-card:hover .painting-img,
+  .painting-card.is-tapped .painting-img {
+    transform: scale(1.05);
+    filter: grayscale(100%);
   }
 
   .glass-card { 
     background: transparent; 
-    -webkit-backdrop-filter: blur(8px); 
-    backdrop-filter: blur(8px); 
+    -webkit-backdrop-filter: blur(12px); 
+    backdrop-filter: blur(12px); 
+    height: auto;
   }
+  
   .painting-card, .glass-card { -webkit-mask-image: -webkit-radial-gradient(white, black); }
 </style>
+
+<script>
+  function setupGallery() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.painting-card');
+    
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        filterBtns.forEach(b => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        
+        const filter = btn.getAttribute('data-filter') || 'all';
+        
+        cards.forEach(card => {
+          const m = card.getAttribute('data-medium') || '';
+          (card as HTMLElement).style.display = (filter === 'all' || m.includes(filter)) ? 'block' : 'none';
+        });
+      });
+    });
+
+    cards.forEach(card => {
+      card.addEventListener('click', (e) => {
+        const isTapped = card.classList.contains('is-tapped');
+        cards.forEach(c => c.classList.remove('is-tapped'));
+        if (!isTapped) card.classList.add('is-tapped');
+        e.stopPropagation();
+      });
+    });
+
+    document.addEventListener('click', () => {
+      cards.forEach(c => c.classList.remove('is-tapped'));
+    });
+
+    const allBtn = document.querySelector('[data-filter="all"]');
+    if (allBtn) allBtn.classList.add('is-active');
+  }
+
+  setupGallery();
+  document.addEventListener('astro:after-swap', setupGallery);
+</script>
