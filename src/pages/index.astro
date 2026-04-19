@@ -66,21 +66,27 @@ const filters = [
 <script>
   function setupGallery() {
     const filterBtns = document.querySelectorAll('.filter-btn');
-    const cards = document.querySelectorAll('.painting-card');
+    const cards = document.querySelectorAll('.painting-card'); // Matches your HTML class
+    
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         filterBtns.forEach(b => b.classList.remove('is-active'));
         btn.classList.add('is-active');
         const filter = btn.getAttribute('data-filter');
+        
         cards.forEach(card => {
           const m = card.getAttribute('data-medium');
+          // Logic: Show if "all" OR if the medium matches the filter slug
           (card as HTMLElement).style.display = (filter === 'all' || m === filter) ? 'block' : 'none';
         });
       });
     });
+
     const allBtn = document.querySelector('[data-filter="all"]');
     if (allBtn) allBtn.classList.add('is-active');
   }
+
   setupGallery();
+  // Keeps it working even after navigating between pages
   document.addEventListener('astro:after-swap', setupGallery);
 </script>

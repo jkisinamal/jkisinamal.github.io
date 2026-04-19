@@ -3,7 +3,21 @@ import Layout from '../layouts/Layout.astro';
 import { client } from '../lib/sanity.ts';
 import type { Artwork } from '../lib/types.ts';
 
-const works: Artwork[] = await client.fetch(`*[_type == "artwork" && isAvailable == true]`);
+// THE FIX: Added the projection to get imageUrl, medium, and price
+const works: Artwork[] = await client.fetch(`*[_type == "artwork" && isAvailable == true]{
+  title,
+  price,
+  medium,
+  "imageUrl": image.asset->url
+}`);
+
+const formatPrice = (price: number) => {
+  return new Intl.NumberFormat('en-PH', {
+    style: 'currency',
+    currency: 'PHP',
+    maximumFractionDigits: 0,
+  }).format(price);
+};
 ---
 
 <Layout title="Purchase | JKISINAMAL">
@@ -15,22 +29,19 @@ const works: Artwork[] = await client.fetch(`*[_type == "artwork" && isAvailable
       {works.map((w: Artwork) => (
         <div class="group">
           <div class="overflow-hidden rounded-[2rem] mb-8 bg-zinc-100 dark:bg-white/5 aspect-square border border-black/5 dark:border-white/10">
+             {/* w.imageUrl will now work because of the updated query above */}
              <img src={w.imageUrl} alt={w.title} class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
           </div>
           <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6">
             <div>
               <span class="text-[10px] uppercase tracking-[0.3em] text-zinc-400">{w.medium}</span>
               <h3 class="text-3xl font-serif text-black dark:text-white italic">{w.title}</h3>
-              <p class="text-xl text-black/60 dark:text-white/40">${w.price}</p>
+              <p class="text-xl text-black/60 dark:text-white/40">{w.price ? formatPrice(w.price) : 'Contact for Price'}</p>
             </div>
-            <a href={`/contact?interest=${w.title}`} class="bg-black text-white dark:bg-white dark:text-black px-12 py-5 rounded-full font-bold text-xs uppercase tracking-widest hover:opacity-80 transition-all">Inquire</a>
+            <a href={`/contact?interest=${encodeURIComponent(w.title)}`} class="bg-black text-white dark:bg-white dark:text-black px-12 py-5 rounded-full font-bold text-xs uppercase tracking-widest hover:opacity-80 transition-all">Inquire</a>
           </div>
         </div>
       ))}
     </div>
   </main>
 </Layout>
-
-<style>
-  @reference "../styles/global.css";
-</style>

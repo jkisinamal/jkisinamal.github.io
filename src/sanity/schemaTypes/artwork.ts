@@ -55,7 +55,7 @@ export default defineType({
     }),
     defineField({
       name: 'price',
-      title: 'Price (USD)',
+      title: 'Price (PHP)',
       type: 'number',
       hidden: ({ document }) => !document?.isAvailable,
     }),
