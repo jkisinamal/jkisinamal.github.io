@@ -24,13 +24,13 @@ const formatPrice = (price: number) => {
 <Layout title="Purchase | JKISINAMAL">
   <main class="pb-20 px-4 md:px-8 max-w-7xl mx-auto min-h-screen">
     <div class="mb-12 pt-6 md:pt-10 md:mb-16">
-      <h1 class="font-serif text-5xl md:text-8xl italic mb-2 text-black dark:text-white">Available Works</h1>
+      <h1 class="font-serif text-5xl md:text-8xl italic mb-2 text-black dark:text-white leading-tight">Available Works</h1>
       <p class="text-[9px] uppercase tracking-[0.3em] text-black/50 dark:text-white/40">Direct acquisition from the studio</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-y-10 md:gap-x-12 md:gap-y-16 items-start">
+    <div class="columns-1 md:columns-2 gap-8 md:gap-12 space-y-8 md:space-y-12">
       {works.map((w: Artwork) => (
-        <div class="purchase-card group relative flex flex-col p-4 rounded-[2rem] border border-black/5 dark:border-white/10 overflow-hidden glass-container shadow-sm touch-manipulation cursor-pointer">
+        <div class="purchase-card break-inside-avoid group relative flex flex-col p-4 rounded-[2rem] border border-black/5 dark:border-white/10 glass-container shadow-sm touch-manipulation cursor-pointer mb-8 md:mb-12">
           
           <div class="absolute inset-0 z-0">
             <div class="absolute inset-0 bg-white/10 dark:bg-black/10 backdrop-blur-md"></div>
@@ -38,16 +38,14 @@ const formatPrice = (price: number) => {
 
           <div class="relative z-10 flex flex-col h-full">
             <div class="relative overflow-hidden rounded-[1.5rem] mb-6 bg-zinc-100 dark:bg-zinc-900 border border-black/5 dark:border-white/5">
-              {/* Changed h-full object-cover to h-auto block */}
               <img 
                 src={w.imageUrl} 
                 alt={w.title} 
-                class="purchase-img w-full h-auto block transition-all duration-700 ease-in-out will-change-transform" 
-                style="backface-visibility: hidden; transform-style: preserve-3d;"
+                class="purchase-img w-full h-auto block transition-all duration-1000 ease-in-out" 
               />
               
               <div class="purchase-details absolute inset-0 z-20 flex flex-col justify-end p-4 opacity-0 transition-all duration-500 ease-in-out">
-                <div class="glass-detail-card relative w-full p-5 rounded-2xl border border-white/40 dark:border-white/10 shadow-2xl overflow-hidden">
+                <div class="glass-detail-card relative w-full p-5 rounded-2xl border border-white/40 dark:border-white/10 shadow-2xl overflow-hidden min-h-[100px] flex flex-col justify-center">
                   <div class="absolute inset-0 z-0">
                     <img src={w.imageUrl} class="absolute w-[400%] h-[400%] max-none blur-2xl opacity-60 grayscale" />
                     <div class="absolute inset-0 bg-white/80 dark:bg-black/80"></div>
@@ -55,13 +53,13 @@ const formatPrice = (price: number) => {
                   <div class="relative z-10 text-left">
                     <span class="text-[8px] uppercase tracking-widest text-black/60 dark:text-white/60 mb-1 block font-bold">{w.medium}</span>
                     <h2 class="text-xl mb-1 text-black dark:text-white font-serif italic leading-none">{w.title}</h2>
-                    <p class="text-zinc-800 dark:text-zinc-200 text-xs italic leading-relaxed">{w.description}</p>
+                    <p class="text-zinc-800 dark:text-zinc-200 text-xs italic leading-tight line-clamp-3">{w.description}</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-5 px-1 pb-1 mt-auto">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-5 px-1 pb-1">
               <div>
                 <h3 class="text-2xl font-serif text-black dark:text-white italic leading-tight">{w.title}</h3>
                 <p class="text-lg font-medium text-black/70 dark:text-white/70">
@@ -90,9 +88,10 @@ const formatPrice = (price: number) => {
   .glass-container { contain: paint; isolation: isolate; -webkit-tap-highlight-color: transparent; }
   
   .purchase-details {
-    background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 70%);
+    background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%);
   }
 
+  /* Reveal Black & White with Details on Interaction */
   .purchase-card:hover .purchase-details,
   .purchase-card.is-tapped .purchase-details {
     opacity: 1;
@@ -100,15 +99,14 @@ const formatPrice = (price: number) => {
 
   .purchase-card:hover .purchase-img,
   .purchase-card.is-tapped .purchase-img {
-    transform: scale(1.05);
     filter: grayscale(100%);
+    transform: scale(1.05);
   }
 
   .glass-detail-card { 
     background: transparent; 
     -webkit-backdrop-filter: blur(16px); 
     backdrop-filter: blur(16px); 
-    height: auto;
   }
 
   .glass-container, .glass-detail-card { -webkit-mask-image: -webkit-radial-gradient(white, black); }
@@ -120,9 +118,9 @@ const formatPrice = (price: number) => {
     
     cards.forEach(card => {
       card.addEventListener('click', (e) => {
-        const isTapped = card.classList.contains('is-tapped');
+        const isCurrentlyTapped = card.classList.contains('is-tapped');
         cards.forEach(c => c.classList.remove('is-tapped'));
-        if (!isTapped) {
+        if (!isCurrentlyTapped) {
           card.classList.add('is-tapped');
         }
         e.stopPropagation();
