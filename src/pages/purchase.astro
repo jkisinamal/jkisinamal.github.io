@@ -1,47 +1,29 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { client } from '../lib/sanity';
-import type { Painting } from '../lib/types';
+import { client } from '../lib/sanity.ts';
+import type { Artwork } from '../lib/types.ts';
 
-const works: Painting[] = await client.fetch(`*[_type == "painting" && category == "available"]{
-  title, price, "imageUrl": image.asset->url, "slug": slug.current
-}`);
+const works: Artwork[] = await client.fetch(`*[_type == "artwork" && isAvailable == true]`);
 ---
-<Layout title="Acquire Art | Available Collection">
-  <main class="pt-24 md:pt-32 pb-20 px-4 md:px-8 max-w-7xl mx-auto min-h-screen">
-    <h1 class="font-serif text-4xl sm:text-5xl md:text-7xl mb-10 md:mb-16 italic font-light text-black dark:text-white transition-all">
-      Available Works
-    </h1>
-    
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
-      {works.map((w: Painting) => (
-        <div class="group bg-zinc-100/50 dark:bg-white/5 border border-black/5 dark:border-white/10 rounded-[2rem] p-4 md:p-6 transition-all hover:shadow-2xl hover:shadow-black/5 dark:hover:shadow-white/5">
-          
-          <div class="overflow-hidden rounded-[1.5rem] mb-6 md:mb-8 bg-zinc-200 dark:bg-zinc-800">
-             <img 
-              src={w.imageUrl} 
-              alt={w.title} 
-              loading="lazy"
-              class="w-full aspect-square object-cover transition-transform duration-700 group-hover:scale-105" 
-            />
-          </div>
 
-          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 px-2 pb-2">
-            <div class="space-y-1">
-              <h3 class="text-2xl md:text-3xl font-serif text-black dark:text-white leading-tight">
-                {w.title}
-              </h3>
-              <p class="text-black/50 dark:text-white/40 font-medium tracking-tight">
-                ${w.price?.toLocaleString()} <span class="text-[10px] uppercase tracking-widest ml-1">USD</span>
-              </p>
+<Layout title="Purchase | JKISINAMAL">
+  <main class="pb-20 px-4 md:px-8 max-w-7xl mx-auto min-h-screen">
+    <div class="mb-24">
+      <h1 class="font-serif text-5xl md:text-8xl italic mb-4 text-black dark:text-white">Available Works</h1>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-20">
+      {works.map((w: Artwork) => (
+        <div class="group">
+          <div class="overflow-hidden rounded-[2rem] mb-8 bg-zinc-100 dark:bg-white/5 aspect-square border border-black/5 dark:border-white/10">
+             <img src={w.imageUrl} alt={w.title} class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+          </div>
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6">
+            <div>
+              <span class="text-[10px] uppercase tracking-[0.3em] text-zinc-400">{w.medium}</span>
+              <h3 class="text-3xl font-serif text-black dark:text-white italic">{w.title}</h3>
+              <p class="text-xl text-black/60 dark:text-white/40">${w.price}</p>
             </div>
-            
-            <a 
-              href={`/contact?interest=${w.slug}`} 
-              class="w-full sm:w-auto text-center bg-black text-white dark:bg-white dark:text-black px-10 py-4 rounded-full font-bold hover:scale-105 active:scale-95 transition-all shadow-lg shadow-black/10 dark:shadow-white/5 text-sm uppercase tracking-widest"
-            >
-              Inquire
-            </a>
+            <a href={`/contact?interest=${w.title}`} class="bg-black text-white dark:bg-white dark:text-black px-12 py-5 rounded-full font-bold text-xs uppercase tracking-widest hover:opacity-80 transition-all">Inquire</a>
           </div>
         </div>
       ))}
@@ -50,9 +32,5 @@ const works: Painting[] = await client.fetch(`*[_type == "painting" && category 
 </Layout>
 
 <style>
-  /* Ensure smooth rendering of the scale effect on mobile */
-  .group img {
-    backface-visibility: hidden;
-    transform: translateZ(0);
-  }
+  @reference "../styles/global.css";
 </style>

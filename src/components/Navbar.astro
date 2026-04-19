@@ -5,13 +5,14 @@ import ThemeToggle from './ThemeToggle.astro';
 <nav class="fixed top-0 w-full z-50 px-4 md:px-8 py-6">
   <div class="max-w-7xl mx-auto flex justify-between items-center bg-zinc-50/90 dark:bg-zinc-900/90 backdrop-blur-xl border border-zinc-200 dark:border-zinc-800 px-6 py-4 rounded-full relative">
     
-    <a href="/" class="font-serif text-xl tracking-tighter z-50 text-zinc-900 dark:text-zinc-50">JKISINAMAL</a>
+    <a href="/" class="font-serif text-xl tracking-tighter z-50 text-zinc-900 dark:text-zinc-50 uppercase">JKISINAMAL</a>
     
     <div class="flex items-center space-x-4 md:space-x-8">
       <div class="hidden md:flex space-x-8 text-xs uppercase tracking-widest text-zinc-500 dark:text-zinc-400">
         <a href="/" class="hover:text-zinc-900 dark:hover:text-zinc-50 transition">Gallery</a>
         <a href="/purchase" class="hover:text-zinc-900 dark:hover:text-zinc-50 transition">Purchase</a>
         <a href="/blog" class="hover:text-zinc-900 dark:hover:text-zinc-50 transition">Journal</a>
+        <a href="/about" class="hover:text-zinc-900 dark:hover:text-zinc-50 transition">About</a>
         <a href="/contact" class="hover:text-zinc-900 dark:hover:text-zinc-50 transition">Contact</a>
       </div>
       
@@ -25,19 +26,16 @@ import ThemeToggle from './ThemeToggle.astro';
         aria-label="Toggle Menu"
       >
         <div class="relative w-6 h-6 flex items-center justify-center">
-          
           <div id="hamburger-icon" class="absolute inset-0 flex items-center justify-center transition-all duration-300 ease-in-out">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
               <path d="M5 7H19M5 12H19M5 17H19" />
             </svg>
           </div>
-
           <div id="close-icon" class="absolute inset-0 flex items-center justify-center transition-all duration-300 ease-in-out opacity-0 scale-50 pointer-events-none">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
           </div>
-
         </div>
       </button>
     </div>
@@ -46,32 +44,20 @@ import ThemeToggle from './ThemeToggle.astro';
       id="mobile-menu" 
       class="absolute top-[80px] left-0 w-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-8 flex flex-col space-y-6 text-center shadow-2xl transition-all duration-300 ease-in-out opacity-0 translate-y-[-20px] pointer-events-none z-40"
     >
-      <a href="/" class="text-xs uppercase tracking-[0.2em] text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 py-1">Gallery</a>
-      <a href="/purchase" class="text-xs uppercase tracking-[0.2em] text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 py-1">Purchase</a>
-      <a href="/blog" class="text-xs uppercase tracking-[0.2em] text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 py-1">Journal</a>
-      <a href="/contact" class="text-xs uppercase tracking-[0.2em] text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 py-1">Contact</a>
+      <a href="/" class="text-xs uppercase tracking-[0.2em] text-zinc-600 dark:text-zinc-400">Gallery</a>
+      <a href="/purchase" class="text-xs uppercase tracking-[0.2em] text-zinc-600 dark:text-zinc-400">Purchase</a>
+      <a href="/blog" class="text-xs uppercase tracking-[0.2em] text-zinc-600 dark:text-zinc-400">Journal</a>
+      <a href="/about" class="text-xs uppercase tracking-[0.2em] text-zinc-600 dark:text-zinc-400">About</a>
+      <a href="/contact" class="text-xs uppercase tracking-[0.2em] text-zinc-600 dark:text-zinc-400">Contact</a>
     </div>
   </div>
 </nav>
 
 <style>
-  /* Transition Logic */
-  #menu-toggle.is-active #hamburger-icon {
-    opacity: 0;
-    transform: scale(0.6);
-  }
-
-  #menu-toggle.is-active #close-icon {
-    opacity: 1;
-    transform: scale(1.1); /* Matches visual weight of hamburger */
-    pointer-events: auto;
-  }
-
-  #mobile-menu.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-  }
+  @reference "../styles/global.css";
+  #menu-toggle.is-active #hamburger-icon { opacity: 0; transform: scale(0.6); }
+  #menu-toggle.is-active #close-icon { opacity: 1; transform: scale(1.1); pointer-events: auto; }
+  #mobile-menu.is-visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
 </style>
 
 <script is:inline>
@@ -79,15 +65,12 @@ import ThemeToggle from './ThemeToggle.astro';
     const btn = document.getElementById('menu-toggle');
     const menu = document.getElementById('mobile-menu');
     if (!btn || !menu) return;
-
     const newBtn = btn.cloneNode(true);
     btn.replaceWith(newBtn);
-
     newBtn.addEventListener('click', () => {
       newBtn.classList.toggle('is-active');
       menu.classList.toggle('is-visible');
     });
-
     menu.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         newBtn.classList.remove('is-active');

@@ -1,8 +1,12 @@
 {
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
+    "ignoreDeprecations": "5.0",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "types": ["@sanity/astro/module"]
   },
-  "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist"]
+  "include": ["src/**/*", ".astro/types.d.ts", "**/*"],
+  "exclude": ["node_modules", "dist"]
 }

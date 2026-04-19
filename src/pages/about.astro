@@ -1,0 +1,35 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="About | JKISINAMAL">
+  <main class="pt-14 pb-20 px-4 md:px-8 max-w-5xl mx-auto">
+    <div class="grid md:grid-cols-2 gap-16 items-start">
+      <img 
+        src="/artist-portrait.jpg" 
+        alt="JKISINAMAL" 
+        class="rounded-2xl w-full aspect-[3/4] object-cover grayscale shadow-xl"
+      />
+      
+      <div class="space-y-8">
+        <h1 class="font-serif text-7xl italic leading-tight">JKISINAMAL</h1>
+        <div class="prose dark:prose-invert prose-neutral">
+          <p class="text-xl font-light text-zinc-600 dark:text-zinc-400">
+            A visual artist exploring the boundaries between classical medium and digital interpretation.
+          </p>
+          <p class="text-zinc-500 dark:text-zinc-500 leading-relaxed">
+            Based in the Philippines, the work of JKISINAMAL is defined by a meticulous approach to light, texture, and the raw expression of form. Each stroke in oil or acrylic serves as a bridge between internal emotion and external reality.
+          </p>
+        </div>
+        
+        <div class="pt-12 border-t border-black/5 dark:border-white/5">
+          <p class="text-[10px] uppercase tracking-[0.4em] opacity-30 mb-4">Exhibitions</p>
+          <ul class="space-y-2 text-sm">
+            <li class="flex justify-between"><span>Contemporary Manila</span> <span class="opacity-40">2026</span></li>
+            <li class="flex justify-between"><span>Digital Dialogue Exhibit</span> <span class="opacity-40">2025</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>

@@ -1,6 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { client } from '../../lib/sanity';
+import { client } from '../../lib/sanity.ts';
 import { PortableText } from '@portabletext/react';
 
 export async function getStaticPaths() {
@@ -9,13 +9,62 @@ export async function getStaticPaths() {
 }
 
 const { slug } = Astro.params;
-const post = await client.fetch(`*[_type == "post" && slug.current == $slug][0]`, { slug });
+const post = await client.fetch(`*[_type == "post" && slug.current == $slug][0]{
+  title,
+  body,
+  publishedAt,
+  "mainImageUrl": mainImage.asset->url
+}`, { slug });
 ---
-<Layout title={post.title}>
-  <article class="pt-40 px-6 max-w-2xl mx-auto pb-20 min-h-screen">
-    <h1 class="font-serif text-5xl md:text-7xl mb-8 text-black dark:text-white">{post.title}</h1>
-    <div class="prose dark:prose-invert prose-neutral max-w-none text-black/80 dark:text-white/80">
-      <PortableText value={post.body} />
+
+<Layout title={`${post.title} | Journal`}>
+  <article class="pb-20 px-4 md:px-8 max-w-4xl mx-auto">
+    
+    {post.mainImageUrl && (
+      <div class="w-full aspect-video md:aspect-[21/9] overflow-hidden rounded-[2.5rem] mb-20">
+        <img src={post.mainImageUrl} class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" />
+      </div>
+    )}
+
+    <div class="max-w-2xl mx-auto">
+      <header class="mb-16">
+        <time class="text-[10px] uppercase tracking-[0.3em] text-zinc-400 mb-4 block">
+          {new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </time>
+        <h1 class="font-serif text-6xl md:text-8xl italic text-zinc-900 dark:text-white leading-none">
+          {post.title}
+        </h1>
+      </header>
+
+      <div class="blog-content prose prose-neutral dark:prose-invert max-w-none">
+        <PortableText value={post.body} />
+      </div>
+
+      <footer class="mt-32 pt-12 border-t border-black/5 dark:border-white/5">
+        <a href="/blog" class="text-xs uppercase tracking-widest font-bold hover:opacity-50 transition-opacity">
+          ← Back to Journal
+        </a>
+      </footer>
     </div>
   </article>
 </Layout>
+
+<style>
+  @reference "../../styles/global.css";
+  
+  .blog-content :global(p) {
+    @apply text-xl leading-relaxed text-zinc-600 dark:text-zinc-400 mb-8 font-light;
+  }
+
+  .blog-content :global(h2) {
+    @apply font-serif text-4xl mt-16 mb-6 text-zinc-900 dark:text-white;
+  }
+
+  .blog-content :global(img) {
+    @apply rounded-3xl my-12 shadow-xl;
+  }
+
+  .blog-content :global(blockquote) {
+    @apply border-l-0 italic text-3xl font-serif text-center py-12 px-8 text-zinc-400;
+  }
+</style>

@@ -1,4 +1,4 @@
-import painting from './painting';
+import artwork from './artwork';
 import post from './post'; 
 
-export const schemaTypes = [painting, post];
+export const schemaTypes = [artwork, post];
