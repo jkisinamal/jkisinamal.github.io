@@ -47,7 +47,7 @@ const filters = [
             />
             
             <div class="details-overlay absolute inset-0 z-20 flex flex-col justify-end p-4 md:p-5 opacity-0 transition-all duration-500 ease-in-out">
-              <div class="glass-card relative w-full min-h-[120px] p-5 rounded-2xl border border-white/40 dark:border-white/10 shadow-2xl overflow-hidden flex flex-col justify-center">
+              <div class="relative w-full min-h-[120px] p-5 rounded-2xl border border-white/40 dark:border-white/10 shadow-2xl overflow-hidden flex flex-col justify-center">
                 <div class="absolute inset-0 z-0">
                   <img src={p.imageUrl} class="absolute w-[400%] h-[400%] max-w-none blur-2xl opacity-60 grayscale" />
                   <div class="absolute inset-0 bg-white/75 dark:bg-black/75"></div>
@@ -90,14 +90,8 @@ const filters = [
     filter: grayscale(100%);
     transform: scale(1.05);
   }
-
-  .glass-card { 
-    background: transparent; 
-    -webkit-backdrop-filter: blur(12px); 
-    backdrop-filter: blur(12px); 
-  }
   
-  .painting-card, .glass-card { -webkit-mask-image: -webkit-radial-gradient(white, black); }
+  .painting-card, { -webkit-mask-image: -webkit-radial-gradient(white, black); }
 </style>
 
 <script>
