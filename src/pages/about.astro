@@ -12,7 +12,7 @@ import Layout from '../layouts/Layout.astro';
         <img 
           src="/artist-portrait.jpg" 
           alt="JKISINAMAL" 
-          class="rounded-[2rem] w-full aspect-[4/5] md:aspect-[3/4] object-cover grayscale shadow-2xl transition-all duration-700 group-hover:grayscale-0"
+          class="rounded-[2rem] w-full aspect-[4/5] md:aspect-[3/4] object-cover shadow-2xl transition-all duration-700"
         />
       </div>
       
@@ -62,17 +62,7 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <style>
-  /* Entrance animation for mobile fluidity */
-  main {
-    animation: fadeIn 0.8s ease-out;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* Prevent awkward text wrapping on very small screens */
+  /* Page-specific mobile tweaks */
   @media (max-width: 380px) {
     h1 { font-size: 2.5rem; }
   }
