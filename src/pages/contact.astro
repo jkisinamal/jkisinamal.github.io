@@ -3,56 +3,77 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Contact | JKISINAMAL">
-  <main class="pt-14 pb-20 px-4 md:px-8 max-w-7xl mx-auto">
-    <div class="grid lg:grid-cols-2 gap-16 items-center">
+  <main class="pt-10 pb-10 px-4 md:px-8 max-w-7xl mx-auto">
+    <div class="grid lg:grid-cols-2 gap-16 items-start">
       
       <div class="max-w-md">
-        <h1 class="font-serif text-6xl italic mb-6 text-black dark:text-white">Get in Touch</h1>
-        <p class="text-zinc-500 dark:text-zinc-400 mb-12 leading-relaxed">
-          For inquiries regarding available works, commissions, or collaborations, please use the form below.
+        <h1 class="font-serif text-6xl italic mb-4 text-black dark:text-white">Get in Touch</h1>
+        <p class="text-zinc-500 dark:text-zinc-400 mb-6 leading-relaxed">
+          By adopting a painting, you are also assisting my endeavor of extending charity to Christian Mission.
         </p>
 
-        <form action="#" class="space-y-6">
-          <div class="space-y-2">
-            <label class="text-[10px] uppercase tracking-widest opacity-50">Full Name</label>
-            <input type="text" placeholder="e.g. Juan Luna" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 focus:border-black dark:focus:border-white outline-none transition-colors placeholder:text-black/20 dark:placeholder:text-white/20" />
+        <form action="https://api.web3forms.com/submit" method="POST" class="space-y-4">
+          <input type="hidden" name="access_key" value="3e0eb43a-715e-4a1f-ab43-6b729196b441">
+          <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
+          <div class="space-y-1">
+            <label class="text-[10px] uppercase tracking-widest opacity-50 font-bold">Full Name</label>
+            <input type="text" name="name" required placeholder="e.g. Juan Luna" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-2 focus:border-black dark:focus:border-white outline-none transition-colors placeholder:text-black/20 dark:placeholder:text-white/20" />
           </div>
-          <div class="space-y-2">
-            <label class="text-[10px] uppercase tracking-widest opacity-50">Email Address</label>
-            <input type="email" placeholder="juan@example.com" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 focus:border-black dark:focus:border-white outline-none transition-colors placeholder:text-black/20 dark:placeholder:text-white/20" />
+
+          <div class="space-y-1">
+            <label class="text-[10px] uppercase tracking-widest opacity-50 font-bold">Email Address</label>
+            <input type="email" name="email" required placeholder="juan@example.com" class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-2 focus:border-black dark:focus:border-white outline-none transition-colors placeholder:text-black/20 dark:placeholder:text-white/20" />
           </div>
-          <div class="space-y-2">
-            <label class="text-[10px] uppercase tracking-widest opacity-50">Message</label>
-            <textarea id="message-field" rows="4" placeholder="I am interested in acquiring this piece..." class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 focus:border-black dark:focus:border-white outline-none transition-colors resize-none placeholder:text-black/20 dark:placeholder:text-white/20"></textarea>
+
+          <div class="space-y-1">
+            <label class="text-[10px] uppercase tracking-widest opacity-50 font-bold">Phone Number <span class="lowercase opacity-60 font-normal">(Optional)</span></label>
+            <input type="tel" name="phone" placeholder="+63..." class="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-2 focus:border-black dark:focus:border-white outline-none transition-colors placeholder:text-black/20 dark:placeholder:text-white/20" />
           </div>
-          <button type="submit" class="w-full bg-black text-white dark:bg-white dark:text-black py-5 rounded-full text-xs uppercase tracking-[0.2em] font-bold hover:opacity-80 transition-opacity">
-            Send Inquiry
-          </button>
+
+          <div class="space-y-1">
+            <label class="text-[10px] uppercase tracking-widest opacity-50 font-bold">Message</label>
+            <textarea 
+              id="message-field" 
+              name="message" 
+              required 
+              placeholder="I am interested in..." 
+              class="auto-expand w-full bg-transparent border-b border-black/10 dark:border-white/10 py-2 focus:border-black dark:focus:border-white outline-none transition-colors resize-none overflow-hidden placeholder:text-black/20 dark:placeholder:text-white/20 min-h-[80px]"
+            ></textarea>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-3 pt-4">
+            <button type="submit" class="flex-1 bg-black text-white dark:bg-white dark:text-black py-4 rounded-full text-xs uppercase tracking-[0.2em] font-bold hover:opacity-80 transition-opacity">
+              Send Inquiry
+            </button>
+            <button type="reset" id="reset-btn" class="px-8 py-4 sm:py-0 border border-black/10 dark:border-white/10 rounded-full text-[10px] uppercase tracking-widest hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors">
+              Reset
+            </button>
+          </div>
         </form>
+
+        <div class="mt-8 pt-6 border-t border-black/5 dark:border-white/5 space-y-1">
+            <p class="text-[10px] uppercase tracking-widest opacity-50 font-bold">Direct Contact</p>
+            <p class="text-xs">Email: <a href="mailto:jkisinamal@yahoo.com" class="hover:underline font-medium">jkisinamal@yahoo.com</a></p>
+            <p class="text-xs">Phone: <a href="tel:+639503368754" class="hover:underline font-medium">+63 950 336 8754</a></p>
+        </div>
       </div>
 
       <div class="relative group order-first lg:order-last">
-        
         <div class="absolute -inset-3 bg-zinc-100 dark:bg-zinc-900 rounded-[2.5rem] -z-10 transition-transform duration-1000 group-hover:scale-[1.03]"></div>
-        
         <div class="painting-card-container relative overflow-hidden rounded-[2rem] shadow-2xl border border-black/5 dark:border-white/5 bg-zinc-100 dark:bg-zinc-800">
           <a href="/about" class="absolute inset-0 z-30"></a>
-          
           <img 
             src="/artist-studio.jpg" 
             alt="The Studio" 
             class="painting-img w-full h-auto block transition-all duration-1000 ease-in-out object-cover aspect-[4/5]" 
           />
-          
           <div class="details-overlay absolute inset-0 z-20 flex flex-col justify-end p-4 md:p-8 opacity-0 transition-all duration-500 ease-in-out group-hover:opacity-100">
-            
             <div class="glass-pill-container relative w-full min-h-[140px] p-6 rounded-2xl shadow-2xl overflow-hidden flex flex-col justify-center translate-y-4 transition-transform duration-500 group-hover:translate-y-0">
-              
               <div class="absolute inset-0 z-0">
                 <img src="/artist-studio.jpg" class="absolute w-[400%] h-[400%] max-w-none blur-3xl opacity-60" />
                 <div class="absolute inset-0 bg-white/70 dark:bg-black/80"></div>
               </div>
-
               <div class="relative z-10 text-left">
                 <span class="text-[9px] uppercase tracking-[0.3em] text-black/50 dark:text-white/40 mb-2 block font-bold">Studio Visit</span>
                 <h2 class="text-2xl md:text-3xl mb-1 text-zinc-900 dark:text-white font-serif italic leading-tight">About the Artist</h2>
@@ -84,12 +105,10 @@ import Layout from '../layouts/Layout.astro';
     pointer-events: none;
   }
 
-  /* Interaction: Zoom only (Grayscale removed as requested) */
   .group:hover .painting-img {
     transform: scale(1.05);
   }
 
-  /* PREMIUM GLASS BORDER (About/Old Style) */
   .glass-pill-container {
     background-clip: padding-box;
     border: 1px solid rgba(255, 255, 255, 0.5); 
@@ -113,9 +132,28 @@ import Layout from '../layouts/Layout.astro';
     const params = new URLSearchParams(window.location.search);
     const artworkTitle = params.get('artwork');
     const messageField = document.getElementById('message-field') as HTMLTextAreaElement;
+    const resetBtn = document.getElementById('reset-btn');
+
+    const adjustHeight = () => {
+      if (messageField) {
+        messageField.style.height = 'auto';
+        messageField.style.height = (messageField.scrollHeight) + 'px';
+      }
+    };
 
     if (artworkTitle && messageField) {
       messageField.value = `I am interested in inquiring about your work titled "${decodeURIComponent(artworkTitle)}". Please let me know the next steps for acquisition.`;
+      adjustHeight();
+    }
+
+    if (messageField) {
+      messageField.addEventListener('input', adjustHeight);
+    }
+
+    if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+            setTimeout(adjustHeight, 10);
+        });
     }
   }
 
