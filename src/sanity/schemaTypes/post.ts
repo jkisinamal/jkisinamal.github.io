@@ -15,19 +15,42 @@ export default defineType({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
-      options: {
-        source: 'title',
-        maxLength: 96,
-      },
+      options: { source: 'title', maxLength: 96 },
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'mainImage',
-      title: 'Cover Image',
+      title: 'Thumbnail (Required)',
       type: 'image',
+      options: { hotspot: true },
+      description: 'Used for the blog list and as a fallback if video fails.',
+    }),
+    defineField({
+      name: 'videoSource',
+      title: 'Video Source',
+      type: 'string',
       options: {
-        hotspot: true,
+        list: [
+          { title: 'External Link (YouTube, Drive, etc.)', value: 'link' },
+          { title: 'Direct Upload to Sanity', value: 'upload' },
+        ],
+        layout: 'radio',
       },
+      initialValue: 'link',
+    }),
+    defineField({
+      name: 'videoUrl',
+      title: 'External Video URL',
+      type: 'url',
+      description: 'Paste YouTube, Vimeo, or Google Drive (Direct Link) here.',
+      hidden: ({ parent }) => parent?.videoSource !== 'link',
+    }),
+    defineField({
+      name: 'videoFile',
+      title: 'Video Upload',
+      type: 'file',
+      options: { accept: 'video/*' },
+      hidden: ({ parent }) => parent?.videoSource !== 'upload',
     }),
     defineField({
       name: 'publishedAt',
@@ -40,42 +63,12 @@ export default defineType({
       title: 'Excerpt',
       type: 'text',
       rows: 3,
-      description: 'A short summary for the blog list page.',
     }),
     defineField({
       name: 'body',
       title: 'Body Content',
       type: 'array',
-      of: [
-        {
-          type: 'block',
-          // This allows the artist to style text (Bold, Italic, Links)
-          styles: [
-            { title: 'Normal', value: 'normal' },
-            { title: 'H1', value: 'h1' },
-            { title: 'H2', value: 'h2' },
-            { title: 'Quote', value: 'blockquote' },
-          ],
-        },
-        {
-          type: 'image',
-          options: { hotspot: true },
-          fields: [
-            {
-              name: 'alt',
-              type: 'string',
-              title: 'Alternative Text',
-            },
-          ],
-        },
-      ],
+      of: [{ type: 'block' }, { type: 'image' }],
     }),
   ],
-  preview: {
-    select: {
-      title: 'title',
-      author: 'author.name',
-      media: 'mainImage',
-    },
-  },
 });
