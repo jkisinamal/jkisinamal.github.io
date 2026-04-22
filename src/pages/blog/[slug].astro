@@ -19,23 +19,11 @@ const post = await client.fetch(`*[_type == "post" && slug.current == $slug][0]{
   "mainImageUrl": mainImage.asset->url
 }`, { slug });
 
-// Helper to format YouTube and Google Drive links for embedding
 function formatVideoUrl(url: string) {
   if (!url) return null;
-  
-  // YouTube transform
-  if (url.includes('youtube.com/watch?v=')) {
-    return url.replace('watch?v=', 'embed/');
-  }
-  if (url.includes('youtu.be/')) {
-    return url.replace('youtu.be/', 'youtube.com/embed/');
-  }
-
-  // Google Drive transform (Converts 'view' link to 'preview' for iframe)
-  if (url.includes('drive.google.com')) {
-    return url.replace('/view', '/preview');
-  }
-
+  if (url.includes('youtube.com/watch?v=')) return url.replace('watch?v=', 'embed/');
+  if (url.includes('youtu.be/')) return url.replace('youtu.be/', 'youtube.com/embed/');
+  if (url.includes('drive.google.com')) return url.replace('/view', '/preview');
   return url;
 }
 
@@ -46,36 +34,27 @@ const isExternal = post.videoSource === 'link';
 <Layout title={`${post.title} | Journal`}>
   <article class="pb-20 px-4 md:px-8 max-w-6xl mx-auto">
     
-    <div class="w-full overflow-hidden rounded-[2.5rem] mb-20 bg-zinc-100 dark:bg-zinc-900">
+    {/* Media Container: Responsive padding/radius for mobile */}
+    <div class="w-full overflow-hidden rounded-3xl md:rounded-[2.5rem] mb-10 md:mb-20 bg-zinc-100 dark:bg-zinc-900">
       {finalVideoUrl ? (
         <div class="aspect-video w-full">
-          {/* Use Iframe for YouTube/Drive, Video tag for direct uploads */}
           {isExternal ? (
-            <iframe 
-              src={finalVideoUrl} 
-              class="w-full h-full" 
-              allow="autoplay; fullscreen" 
-              allowfullscreen
-            ></iframe>
+            <iframe src={finalVideoUrl} class="w-full h-full" allow="autoplay; fullscreen" allowfullscreen></iframe>
           ) : (
-            <video 
-              src={finalVideoUrl} 
-              controls 
-              class="w-full h-full object-cover"
-            />
+            <video src={finalVideoUrl} controls class="w-full h-full object-cover" />
           )}
         </div>
       ) : post.mainImageUrl && (
-        <img src={post.mainImageUrl} class="w-full h-auto object-contain" />
+        <img src={post.mainImageUrl} class="w-full h-auto object-contain" alt={post.title} />
       )}
     </div>
 
     <div class="max-w-4xl mx-auto">
-      <header class="mb-16">
-        <time class="text-[10px] uppercase tracking-[0.3em] text-zinc-400 mb-4 block">
+      <header class="mb-10 md:mb-16">
+        <time class="text-[9px] md:text-[10px] uppercase tracking-[0.3em] text-zinc-400 mb-4 block">
           {new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
         </time>
-        <h1 class="font-serif text-6xl md:text-8xl text-zinc-900 dark:text-white leading-tight">
+        <h1 class="font-serif text-4xl md:text-8xl text-zinc-900 dark:text-white leading-tight">
           {post.title}
         </h1>
       </header>
@@ -83,6 +62,32 @@ const isExternal = post.videoSource === 'link';
       <div class="blog-content prose prose-neutral dark:prose-invert max-w-none">
         <PortableText value={post.body} />
       </div>
+
+      <footer class="mt-20 md:mt-32 pt-12 border-t border-black/5 dark:border-white/5">
+        <a href="/blog" class="text-[10px] uppercase tracking-widest font-bold hover:opacity-50 transition-opacity">
+          ← Back to Journal
+        </a>
+      </footer>
     </div>
   </article>
 </Layout>
+
+<style>
+  @reference "../../styles/global.css";
+  
+  .blog-content :global(p) {
+    @apply text-lg md:text-xl leading-relaxed text-zinc-600 dark:text-zinc-400 mb-6 md:mb-8 font-light;
+  }
+
+  .blog-content :global(h2) {
+    @apply font-serif text-2xl md:text-4xl mt-12 md:mt-16 mb-4 md:mb-6 text-zinc-900 dark:text-white;
+  }
+
+  .blog-content :global(img) {
+    @apply rounded-2xl md:rounded-3xl my-8 md:my-12 shadow-lg md:shadow-xl;
+  }
+
+  .blog-content :global(blockquote) {
+    @apply border-l-0 italic text-xl md:text-3xl font-serif text-center py-8 md:py-12 px-4 md:px-8 text-zinc-400;
+  }
+</style>
