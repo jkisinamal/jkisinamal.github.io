@@ -18,5 +18,5 @@ export interface Post {
   excerpt: string;
   body: any[];
   mainImageUrl?: string;
-  featuredVideo?: string; // New field
+  featuredVideo?: string;
 }
