@@ -1,46 +1,30 @@
-# Astro Starter Kit: Basics
+# JKISINAMAL | Professional Artist Portfolio
 
-```sh
-npm create astro@latest -- --template basics
-```
+[![Live Site](https://img.shields.io/badge/Live_Site-Visit_Gallery-blue?style=for-the-badge&logo=googlechrome&logoColor=white)](https://jkisinamal.github.io)
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+A high-performance, visually-driven digital gallery designed and developed for visual artist **JKISINAMAL**. This project serves as a centralized platform to showcase fine art collections with a focus on aesthetic precision and technical optimization.
 
-## 🚀 Project Structure
+## 🛠️ Technical Stack
 
-Inside of your Astro project, you'll see the following folders and files:
+* **Frontend:** Built using modern component-based architecture.
+* **Styling:** Tailwind CSS (featuring custom Glassmorphism effects and responsive grids).
+* **Performance:** Optimized image loading and layout stability.
+* **Deployment:** GitHub Pages.
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
+## ✨ Key Features
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+* **Responsive Masonry Gallery:** A dynamic layout system that handles varying artwork aspect ratios seamlessly.
+* **Glassmorphic UI Elements:** Sophisticated, translucent interface components that provide a modern aesthetic.
+* **Fast Content Delivery:** Optimized for high-resolution image rendering without compromising load speeds.
+* **Mobile-Optimized:** Fully responsive design ensuring the art looks stunning on everything from mobile devices to desktop monitors.
 
-## 🧞 Commands
+## 👨‍💻 Developer Information
 
-All commands are run from the root of the project, from a terminal:
+**Jero Halili** *Full-Stack Developer, AI Engineer & Database Administrator* [Portfolio](https://jerohalili.is-a.dev) | [GitHub](https://github.com/JeroHalili)
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## 📜 License
 
-## 👀 Want to learn more?
+This project is licensed under the **MIT License**. See the `LICENSE` file for details.
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+---
+© 2026 JKISINAMAL. All Rights Reserved.
