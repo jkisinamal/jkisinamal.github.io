@@ -31,9 +31,9 @@ import ThemeToggle from './ThemeToggle.astro';
               <path d="M5 7H19M5 12H19M5 17H19" />
             </svg>
           </div>
-          <div id="close-icon" class="absolute inset-0 flex items-center justify-center transition-all duration-300 ease-in-out opacity-0 scale-50 pointer-events-none">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-              <path d="M18 6L6 18M6 6l12 12" />
+          <div id="close-icon" class="absolute inset-0 flex items-center justify-center transition-all duration-300 ease-in-out opacity-0 pointer-events-none">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+              <path d="M17 7L7 17M7 7l10 10" />
             </svg>
           </div>
         </div>
@@ -56,7 +56,7 @@ import ThemeToggle from './ThemeToggle.astro';
 <style>
   @reference "../styles/global.css";
   #menu-toggle.is-active #hamburger-icon { opacity: 0; transform: scale(0.6); }
-  #menu-toggle.is-active #close-icon { opacity: 1; transform: scale(1.1); pointer-events: auto; }
+  #menu-toggle.is-active #close-icon { opacity: 1; transform: scale(0.95); pointer-events: auto; }
   #mobile-menu.is-visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
 </style>
 
