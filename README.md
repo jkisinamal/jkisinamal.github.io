@@ -1,6 +1,6 @@
 # JKISINAMAL | Professional Artist Portfolio
 
-[![Live Site](https://img.shields.io/badge/Live_Site-Visit_Gallery-blue?style=for-the-badge&logo=googlechrome&logoColor=white)](https://jkisinamal.github.io)
+**Live Site:** [https://jkisinamal.github.io](https://jkisinamal.github.io)
 
 A high-performance, visually-driven digital gallery designed and developed for visual artist **JKISINAMAL**. This project serves as a centralized platform to showcase fine art collections with a focus on aesthetic precision and technical optimization.
 
