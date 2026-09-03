@@ -73,8 +73,12 @@ const filters = [
 <style>
   @reference "../styles/global.css";
   
-  .painting-card { contain: paint; isolation: isolate; -webkit-tap-highlight-color: transparent; transform-style: preserve-3d; transition: transform 0.15s ease-out; will-change: transform; }
-  
+  .painting-card { contain: paint; isolation: isolate; -webkit-tap-highlight-color: transparent; }
+
+  @media (hover: hover) and (pointer: fine) {
+    .painting-card { transform-style: preserve-3d; transition: transform 0.15s ease-out; will-change: transform; }
+  }
+
   .filter-btn.is-active { 
     @apply border-black dark:border-white text-black dark:text-white bg-white dark:bg-zinc-800 scale-105 z-10; 
   }
@@ -98,10 +102,14 @@ const filters = [
     transform: translateX(-50%) translateY(10px);
     transition: opacity 0.3s ease, transform 0.3s ease;
   }
-  .painting-card:hover .click-me-indicator {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
+
+  @media (hover: hover) and (pointer: fine) {
+    .painting-card:hover .click-me-indicator {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
   }
+
   .painting-card.is-tapped .click-me-indicator {
     opacity: 0 !important;
     pointer-events: none;

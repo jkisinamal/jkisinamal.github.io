@@ -91,10 +91,12 @@ const formatPrice = (price: number) => {
   
   .glass-container { contain: paint; isolation: isolate; -webkit-tap-highlight-color: transparent; }
   
-  .artwork-container {
-    transform-style: preserve-3d;
-    transition: transform 0.15s ease-out;
-    will-change: transform;
+  @media (hover: hover) and (pointer: fine) {
+    .artwork-container {
+      transform-style: preserve-3d;
+      transition: transform 0.15s ease-out;
+      will-change: transform;
+    }
   }
 
   .purchase-img {
@@ -120,10 +122,14 @@ const formatPrice = (price: number) => {
     transform: translateX(-50%) translateY(10px);
     transition: opacity 0.3s ease, transform 0.3s ease;
   }
-  .purchase-card:hover .click-me-indicator {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
+
+  @media (hover: hover) and (pointer: fine) {
+    .purchase-card:hover .click-me-indicator {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
   }
+
   .purchase-card.is-tapped .click-me-indicator {
     opacity: 0 !important;
     pointer-events: none;
