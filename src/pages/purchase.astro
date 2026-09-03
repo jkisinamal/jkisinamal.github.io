@@ -37,12 +37,16 @@ const formatPrice = (price: number) => {
           </div>
 
           <div class="relative z-10 flex flex-col h-full">
-            <div class="relative overflow-hidden rounded-[1.5rem] mb-6 bg-zinc-100 dark:bg-zinc-900 border border-black/5 dark:border-white/5">
+            <div class="artwork-container relative overflow-hidden rounded-[1.5rem] mb-6 bg-zinc-100 dark:bg-zinc-900 border border-black/5 dark:border-white/5">
               <img 
                 src={w.imageUrl} 
                 alt={w.title} 
-                class="purchase-img w-full h-auto block transition-all duration-1000 ease-in-out" 
+                class="purchase-img w-full h-auto block" 
               />
+              
+              <div class="click-me-indicator absolute bottom-3 left-1/2 z-10 px-4 py-1.5 rounded-full bg-black/60 dark:bg-white/60 backdrop-blur-sm text-white dark:text-black text-[9px] uppercase tracking-widest font-bold shadow-lg">
+                Click me
+              </div>
               
               <div class="purchase-details absolute inset-0 z-20 flex flex-col justify-end p-4 opacity-0 transition-all duration-500 ease-in-out">
                 <div class="relative w-full p-5 rounded-2xl border border-white/40 dark:border-white/10 shadow-2xl overflow-hidden min-h-[100px] flex flex-col justify-center">
@@ -69,7 +73,7 @@ const formatPrice = (price: number) => {
 
               <a 
                 href={`/contact?artwork=${encodeURIComponent(w.title)}`} 
-                class="w-full sm:w-auto text-center bg-black text-white dark:bg-white dark:text-black px-10 py-4 rounded-full font-bold text-[9px] uppercase tracking-widest transition-all hover:scale-105 active:scale-95 z-30"
+                class="w-full sm:w-auto text-center bg-black text-white dark:bg-white dark:text-black px-10 py-4 rounded-full font-bold text-[9px] uppercase tracking-widest transition-transform hover:scale-105 active:scale-95 z-30"
                 onclick="event.stopPropagation();"
               >
                 Inquire
@@ -87,20 +91,43 @@ const formatPrice = (price: number) => {
   
   .glass-container { contain: paint; isolation: isolate; -webkit-tap-highlight-color: transparent; }
   
+  .artwork-container {
+    transform-style: preserve-3d;
+    transition: transform 0.15s ease-out;
+    will-change: transform;
+  }
+
+  .purchase-img {
+    transition: transform 0.3s ease, filter 1000ms ease-in-out;
+  }
+  
   .purchase-details {
     background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%);
   }
 
-  /* Reveal Black & White with Details on Interaction */
-  .purchase-card:hover .purchase-details,
+  /* Click-only: Color -> B&W on tap */
   .purchase-card.is-tapped .purchase-details {
     opacity: 1;
   }
 
-  .purchase-card:hover .purchase-img,
   .purchase-card.is-tapped .purchase-img {
     filter: grayscale(100%);
     transform: scale(1.05);
+  }
+
+  .click-me-indicator {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .purchase-card:hover .click-me-indicator {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  .purchase-card.is-tapped .click-me-indicator {
+    opacity: 0 !important;
+    pointer-events: none;
+    transform: translateX(-50%) translateY(10px);
   }
 
   .glass-container { -webkit-mask-image: -webkit-radial-gradient(white, black); }
@@ -111,6 +138,8 @@ const formatPrice = (price: number) => {
     const cards = document.querySelectorAll('.purchase-card');
     
     cards.forEach(card => {
+      const container = card.querySelector('.artwork-container') as HTMLElement;
+
       card.addEventListener('click', (e) => {
         const isCurrentlyTapped = card.classList.contains('is-tapped');
         cards.forEach(c => c.classList.remove('is-tapped'));
@@ -118,6 +147,22 @@ const formatPrice = (price: number) => {
           card.classList.add('is-tapped');
         }
         e.stopPropagation();
+      });
+
+      card.addEventListener('mousemove', (e: MouseEvent) => {
+        if (!container) return;
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -8;
+        const rotateY = ((x - centerX) / centerX) * 8;
+        container.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        if (container) container.style.transform = '';
       });
     });
 

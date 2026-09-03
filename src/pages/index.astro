@@ -27,7 +27,7 @@ const filters = [
         {filters.map(f => (
           <button 
             data-filter={f.value}
-            class="filter-btn px-7 py-3 rounded-full border border-black/5 dark:border-white/10 text-[10px] uppercase tracking-[0.2em] transition-all duration-300 bg-zinc-50 dark:bg-zinc-900 text-zinc-500 hover:text-black dark:hover:text-white"
+            class="filter-btn px-7 py-3 rounded-full border border-black/5 dark:border-white/10 text-[10px] uppercase tracking-[0.2em] transition-colors duration-300 bg-zinc-50 dark:bg-zinc-900 text-zinc-500 hover:text-black dark:hover:text-white"
           >
             {f.label}
           </button>
@@ -43,8 +43,12 @@ const filters = [
             <img 
               src={p.imageUrl} 
               alt={p.title} 
-              class="painting-img w-full h-auto block grayscale-0 transition-all duration-1000 ease-in-out" 
+              class="painting-img w-full h-auto block transition-all duration-1000 ease-in-out" 
             />
+            
+            <div class="click-me-indicator absolute bottom-3 left-1/2 z-10 px-4 py-1.5 rounded-full bg-black/60 dark:bg-white/60 backdrop-blur-sm text-white dark:text-black text-[9px] uppercase tracking-widest font-bold shadow-lg">
+              Click me
+            </div>
             
             <div class="details-overlay absolute inset-0 z-20 flex flex-col justify-end p-4 md:p-5 opacity-0 transition-all duration-500 ease-in-out">
               <div class="relative w-full min-h-[120px] p-5 rounded-2xl border border-white/40 dark:border-white/10 shadow-2xl overflow-hidden flex flex-col justify-center">
@@ -69,7 +73,7 @@ const filters = [
 <style>
   @reference "../styles/global.css";
   
-  .painting-card { contain: paint; isolation: isolate; -webkit-tap-highlight-color: transparent; }
+  .painting-card { contain: paint; isolation: isolate; -webkit-tap-highlight-color: transparent; transform-style: preserve-3d; transition: transform 0.15s ease-out; will-change: transform; }
   
   .filter-btn.is-active { 
     @apply border-black dark:border-white text-black dark:text-white bg-white dark:bg-zinc-800 scale-105 z-10; 
@@ -79,19 +83,32 @@ const filters = [
     background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%);
   }
 
-  /* REVERSED EFFECT: Color -> B&W on Interaction */
-  .painting-card:hover .details-overlay,
+  /* Click-only: Color -> B&W on tap */
   .painting-card.is-tapped .details-overlay {
     opacity: 1;
   }
 
-  .painting-card:hover .painting-img,
   .painting-card.is-tapped .painting-img {
     filter: grayscale(100%);
     transform: scale(1.05);
   }
+
+  .click-me-indicator {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .painting-card:hover .click-me-indicator {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  .painting-card.is-tapped .click-me-indicator {
+    opacity: 0 !important;
+    pointer-events: none;
+    transform: translateX(-50%) translateY(10px);
+  }
   
-  .painting-card, { -webkit-mask-image: -webkit-radial-gradient(white, black); }
+  .painting-card { -webkit-mask-image: -webkit-radial-gradient(white, black); }
 </style>
 
 <script>
@@ -118,6 +135,21 @@ const filters = [
         cards.forEach(c => c.classList.remove('is-tapped'));
         if (!isCurrentlyTapped) card.classList.add('is-tapped');
         e.stopPropagation();
+      });
+
+      card.addEventListener('mousemove', (e: MouseEvent) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -8;
+        const rotateY = ((x - centerX) / centerX) * 8;
+        (card as HTMLElement).style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        (card as HTMLElement).style.transform = '';
       });
     });
 
